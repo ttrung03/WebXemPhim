@@ -1,0 +1,245 @@
+.genre_admin_container {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif; /* Font chữ hiện đại */
+    background-color: #f8f9fa; /* Nền sáng */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow nhẹ */
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.genre_admin_container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 3rem; /* Tăng kích thước chữ */
+    font-weight: bold;
+    color: #333; /* Màu chữ tối */
+}
+
+.genre_btn-success {
+    font-size: 1.6rem; /* Tăng kích thước chữ cho nút */
+    padding: 14px 24px; /* Tăng kích thước nút */
+    margin-bottom: 20px;
+    border-radius: 8px; /* Bo góc lớn hơn */
+    transition: background-color 0.3s ease;
+}
+
+.genre_btn-success:hover {
+    background-color: #28a745; /* Hover màu xanh lá cây đậm */
+    opacity: 0.9;
+}
+
+/* Table styles */
+.genre_table {
+    background-color: #fff; /* Nền trắng cho bảng */
+    border-radius: 8px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.genre_table thead {
+    background-color: #113358; /* Header bảng màu xanh đậm */
+    color: #fff; /* Chữ trắng */
+}
+
+.genre_table th {
+    padding: 18px; /* Tăng khoảng cách cho tiêu đề */
+    font-size: 1.6rem; /* Font chữ lớn hơn */
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.genre_table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Xen kẽ màu giữa các hàng */
+}
+
+.genre_table td {
+    padding: 18px; 
+    font-size: 1.5rem;
+    text-align: center;
+    color: #555;
+}
+
+.genre_table td a {
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: #fff; 
+    margin-right: 10px;
+    font-weight: bold;
+    padding: 12px 20px; 
+    border-radius: 6px;
+    background-color: #28a745; 
+    transition: all 0.3s ease;
+}
+
+.genre_table td a:hover {
+    background-color: #218838; 
+    color: #fff; 
+}
+
+.genre_table td button {
+    font-size: 1.4rem;
+    padding: 12px 20px; 
+    border-radius: 6px;
+    border: none;
+    background-color: #dc3545; 
+    color: #fff; 
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.genre_table td button:hover {
+    background-color: #c82333; /* Hover màu đỏ đậm */
+}
+
+/* Pagination styles */
+.genre_pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.genre_pagination .page-item {
+    margin: 0 5px;
+}
+
+.genre_pagination .page-link {
+    font-size: 1.6rem; /* Font chữ lớn hơn */
+    padding: 12px 18px; /* Tăng khoảng cách nút phân trang */
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #007bff;
+    border: 1px solid #dee2e6;
+}
+
+.genre_pagination .page-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .genre_table td, .genre_table th {
+        font-size: 1.3rem; /* Điều chỉnh kích thước chữ nhỏ hơn trên màn hình nhỏ */
+    }
+
+    .genre_btn-success {
+        font-size: 1.4rem;
+        padding: 12px 18px;
+    }
+
+    .genre_pagination .page-link {
+        font-size: 1.4rem;
+        padding: 10px 15px;
+    }
+}
+/* From Uiverse.io by Na3ar-17 */
+.genres_button {
+    
+    border: none !important;
+    outline: none !important;
+    background-color: #3a3a3a !important;
+    width: 180px !important;
+    height: 60px !important;
+    font-size: 18px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: all 0.3s !important;
+}
+
+  
+  .genres_button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    width: 106%;
+    height: 120%;
+    z-index: -1;
+    border-radius: inherit;
+    transition: all 0.3s;
+  }
+  
+  .genres_gradient-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 106%;
+    height: 115%;
+    overflow: hidden;
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(10px);
+    transition: all 0.3s;
+  }
+  
+  .genres_gradient {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    transition: all 0.3s;
+    background-image: linear-gradient(
+      90deg,
+      hsl(226, 81%, 64%),
+      hsl(271, 81%, 64%),
+      hsl(316, 81%, 64%),
+      hsl(1, 81%, 64%),
+      hsl(46, 81%, 64%),
+      hsl(91, 81%, 64%),
+      hsl(136, 81%, 64%),
+      hsl(181, 81%, 64%)
+    );
+    animation: rotate 2s linear infinite;
+    filter: blur(10px);
+  }
+  
+  .genres_label {
+    width: 156px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 22px;
+    background-color: rgba(43, 43, 43, 1);
+    background-image: linear-gradient(
+      180deg,
+      rgb(43, 43, 43) 0%,
+      rgb(68, 68, 68) 100%
+    );
+  }
+  
+  .genres_button:hover .genres_gradient-container {
+    transform: translate(-50%, -50%) scale(0.98);
+    filter: blur(5px);
+  }
+  
+  .genres_button:hover .genres_gradient {
+    filter: blur(5px);
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  

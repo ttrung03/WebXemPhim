@@ -1,0 +1,104 @@
+.admin_wrapper {
+    display: flex;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif; /* Font chữ đẹp hơn */
+}
+
+.admin_Sidebar {
+    flex-basis: 250px;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.6rem;
+    background-color: #e3f2fd; /* Màu xanh nhạt */
+    border-radius: 7px;
+    padding: 15px;
+}
+
+.admin_logo {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    border-bottom: 1px solid #90caf9;
+    padding-bottom: 10px;
+}
+
+.admin_logo-img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+.admin_first-titl {
+    color: #1565c0;
+    margin-right: 5px;
+    text-align: left;
+}
+.admin_last-titl {
+    color: #1e88e5;
+    text-align: left;
+}
+
+.admin_nav-link {
+    width: 90%;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.8rem;
+    border-radius: 20px; /* Bo tròn nút */
+    margin-bottom: 10px;
+    padding: 10px 15px; /* Thêm padding cho không gian nút */
+    opacity: 0.9;
+    background-color: #c2c4d9; /* Màu nền mặc định */
+    color: #444; /* Màu chữ */
+    transition: all 0.3s ease-in-out; /* Hiệu ứng chuyển màu mượt mà */
+
+    &.active {
+        background-color: #053b67;
+        color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    }
+
+    &:hover {
+        background-color: #1e88e5; /* Xanh lam đậm khi hover */
+        color: white; /* Đổi màu chữ */
+        transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    }
+}
+
+.admin_btn {
+    margin-top: auto; 
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: 1px solid #90caf9;
+}
+
+.admin_btn-logout {
+    display: block;
+    width: 90%; /* Độ rộng nút */
+    color: white;
+    background-color: #e53935; /* Màu đỏ cho nút đăng xuất */
+    padding: 10px 15px;
+    border-radius: 20px; /* Bo tròn nút */
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background-color: #c62828; /* Đỏ đậm hơn khi hover */
+        transform: scale(1.05); /* Phóng to nhẹ khi hover */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    }
+}
+
+.admin_Content {
+    margin-left: 20px;
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 7px;
+    padding: 15px;
+    font-size: 1.6rem;
+}

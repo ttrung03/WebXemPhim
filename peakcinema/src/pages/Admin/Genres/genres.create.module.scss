@@ -1,0 +1,155 @@
+/* Container chung */
+.create_genres_container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(6, 129, 129, 0.1);
+}
+
+/* Tiêu đề */
+.create_genres_title {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.create_genres_form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Nhãn trong form */
+.create_genres_label {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* Trường input */
+.create_genres_input {
+    font-size: 1.4rem;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+}
+
+.create_genres_input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Nút Thêm */
+.create_genres_button {
+    border: none;
+    outline: none;
+    background-color: #054579; /* Màu xanh lam */
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    color: #fff; /* Chữ trắng */
+    font-weight: 600;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.create_genres_button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    width: 106%;
+    height: 120%;
+    z-index: -1;
+    border-radius: inherit;
+    transition: all 0.3s;
+}
+
+.create_genres_gradient-container {
+    display: none; 
+}
+.create_genres_gradient-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 106%;
+    height: 115%;
+    overflow: hidden;
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(10px);
+    transition: all 0.3s;
+}
+
+.create_genres_gradient {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    transition: all 0.3s;
+    background-image: linear-gradient(
+        90deg,
+        hsl(226, 81%, 64%),
+        hsl(271, 81%, 64%),
+        hsl(316, 81%, 64%),
+        hsl(1, 81%, 64%),
+        hsl(46, 81%, 64%),
+        hsl(91, 81%, 64%),
+        hsl(136, 81%, 64%),
+        hsl(181, 81%, 64%)
+    );
+    animation: rotate 2s linear infinite;
+    filter: blur(10px);
+}
+
+.create_genres_label_button {
+    width: 100%;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 10px;
+    background: none; /* Bỏ gradient cũ */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+.create_genres_button:hover {
+    background-color: #043950; 
+
+.create_genres_button:hover .create_genres_gradient-container {
+    transform: translate(-50%, -50%) scale(0.98);
+    filter: blur(5px);
+}
+
+.create_genres_button:hover .create_genres_gradient {
+    filter: blur(5px);
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+}

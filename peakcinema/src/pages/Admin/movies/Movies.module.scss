@@ -1,0 +1,176 @@
+.index_list_container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Tiêu đề */
+.index_list_title {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Tiện ích tìm kiếm và thêm */
+.index_list_utils {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Canh giữa các tiện ích */
+    gap: 20px; /* Tạo khoảng cách giữa các thành phần */
+    flex-wrap: wrap; /* Cho phép xuống hàng trên màn hình nhỏ */
+    margin-bottom: 20px;
+}
+
+/* Nút Thêm phim mới */
+.index_list_add-btn {
+    background-color: #09395b; /* Màu nền xanh đậm */
+    color: #fff; /* Chữ trắng */
+    padding: 10px 20px; /* Đảm bảo vừa với chữ */
+    font-size: 1.6rem; /* Kích thước chữ */
+    border: none;
+    border-radius: 6px; /* Bo góc */
+    transition: background-color 0.3s, transform 0.2s ease-in-out; /* Hiệu ứng khi hover */
+    cursor: pointer;
+    text-align: center;
+    min-width: fit-content; /* Đảm bảo nút không quá dài */
+}
+
+.index_list_add-btn:hover {
+    background-color: #0c507a; /* Xanh đậm hơn khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+/* Thanh tìm kiếm */
+.index_list_search-box {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 10px;
+    width: 300px; /* Độ rộng cố định cho thanh tìm kiếm */
+}
+
+.index_list_search-box input {
+    border: none;
+    outline: none;
+    font-size: 1.6rem;
+    padding: 10px;
+    width: 100%;
+}
+
+.index_list_search-box button {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.index_list_search-box button:hover {
+    color: #007bff;
+}
+
+/* Nút danh mục */
+.index_list_select-form {
+    font-size: 3rem;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    width: 100px; /* Làm nút danh mục ngắn hơn */
+}
+
+/* Bảng danh sách phim */
+.index_list_table {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+    font-size: 1.4rem;
+
+    thead {
+        background-color: #133458;
+        color: #fff;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        text-transform: uppercase;
+        font-size: 1.4rem;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    img {
+        width: 80px;
+        height: auto;
+        border-radius: 4px;
+        object-fit: cover;
+    }
+}
+
+/* Nút Sửa và Xoá */
+.index_list_action-link {
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: #082039;
+    margin-right: 10px;
+    transition: color 0.3s;
+}
+
+.index_list_action-link:hover {
+    color: #0056b3;
+}
+
+.index_list_action-btn {
+    font-size: 1.4rem;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.index_list_action-btn:hover {
+    background-color: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .index_list_utils {
+        flex-direction: column;
+        gap: 15px; /* Giảm khoảng cách giữa các thành phần trên màn hình nhỏ */
+    }
+
+    .index_list_search-box {
+        width: 100%; /* Thanh tìm kiếm chiếm toàn bộ chiều rộng */
+    }
+
+    .index_list_table img {
+        width: 60px;
+    }
+}
+ 
