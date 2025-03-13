@@ -17,14 +17,22 @@ function Footer({ className }) {
                     <li className={cs('item')}>
                         <a href="tel:phonenumber" className={cs('item-link')}>
                             <FontAwesomeIcon className={cs('icon')} icon={faPhone} />
+<<<<<<< HEAD
                             Phone Number : 0900.xxx.xxx
+=======
+                            Phone Number : kocotieude
+>>>>>>> 3b7c1e6 (the firt commit)
                         </a>
                     </li>
 
                     <li className={cs('item')}>
                         <a href="mailto:youremail" className={cs('item-link')}>
                             <FontAwesomeIcon className={cs('icon')} icon={faEnvelope} />
+<<<<<<< HEAD
                             Email : support@gmail.com
+=======
+                            Email : dangsang@gmail.com
+>>>>>>> 3b7c1e6 (the firt commit)
                         </a>
                     </li>
 
@@ -41,7 +49,11 @@ function Footer({ className }) {
                 <h4 className={cs('heading')}>Follow Me</h4>
                 <ul className={cs('list')}>
                     <li className={cs('item')}>
+<<<<<<< HEAD
                         <a href="https://web.facebook.com/admin" target="_blank" className={cs('item-link')}>
+=======
+                        <a href="https://web.facebook.com/ndsanggg0510" target="_blank" className={cs('item-link')}>
+>>>>>>> 3b7c1e6 (the firt commit)
                             <FontAwesomeIcon className={cs('icon')} icon={faFacebook} />
                             Facebook
                         </a>

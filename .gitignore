@@ -111,12 +111,15 @@ dist
 .temp
 .cache
 
+<<<<<<< HEAD
 # vitepress build output
 **/.vitepress/dist
 
 # vitepress cache directory
 **/.vitepress/cache
 
+=======
+>>>>>>> 5b5dcf5 (the firt commit)
 # Docusaurus cache and generated files
 .docusaurus
 
@@ -142,6 +145,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 # dependencies
 /node_modules
@@ -165,3 +169,11 @@ dist
 .vercel/
 =======
 >>>>>>> aa3835d (Initial commit)
+=======
+=======
+node_modules/
+
+.env
+*.log
+>>>>>>> 5b5dcf5 (the firt commit)
+>>>>>>> 3b7c1e6 (the firt commit)

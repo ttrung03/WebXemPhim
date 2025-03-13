@@ -11,7 +11,14 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useRef, useState } from 'react';
+<<<<<<< HEAD
 import { supabase } from '~/components/Supabase';
+=======
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+
+//Cần phải có dòng này
+import { firebaseConnect } from '~/components/Firebase';
+>>>>>>> 3b7c1e6 (the firt commit)
 import { AuthContext } from '~/context';
 import { UpdateIcon } from '~/components/Icon';
 import image from '~/assets/Images';
@@ -20,6 +27,11 @@ import { changePassword, deleteUserClient, updateUserClient } from '~/apiService
 const cs = classNames.bind(styles);
 
 function Profile() {
+<<<<<<< HEAD
+=======
+    const storage = getStorage();
+
+>>>>>>> 3b7c1e6 (the firt commit)
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const { showToastMessage } = useContext(AuthContext);
@@ -39,6 +51,13 @@ function Profile() {
 
     const filterRef = useRef();
 
+<<<<<<< HEAD
+=======
+    // const refInputEmail = useRef();
+    // const refIconEmail = useRef();
+    // const refIconSentEmail = useRef();
+
+>>>>>>> 3b7c1e6 (the firt commit)
     const handleEditName = () => {
         refContent.current.setAttribute('contentEditable', true);
         refContent.current.focus();
@@ -109,6 +128,7 @@ function Profile() {
         confirmBtn.current.addEventListener('click', handleConfirmDelete);
     };
 
+<<<<<<< HEAD
     const handleUploadImg = async (e) => {
         const image = e.target.files[0];
         filterRef.current.classList.add(cs('filter'));
@@ -149,6 +169,42 @@ function Profile() {
             } finally {
                 setLoading(false);
             }
+=======
+    //Nếu lỗi thì xem đã import firebaseConnect từ component Firebase chưa chưa phải có dòng này
+
+    const handleUploadImg = (e) => {
+        const image = e.target.files[0];
+        filterRef.current.classList.add(cs('filter'));
+        if (image) {
+            const storageRef = ref(storage, `images/${image.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, image);
+
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    setLoading(true);
+                },
+                (error) => {
+                    showToastMessage('error', error.message);
+                    console.log(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                        try {
+                            filterRef.current.classList.remove(cs('filter'));
+                            const res = await updateUserClient({ avatar: downloadURL }, user.email);
+                            localStorage.setItem('user', JSON.stringify({ ...user, avatar: downloadURL }));
+                            showToastMessage('success', 'Cập nhật ảnh đại diện thành công');
+                            setLoading(false);
+                        } catch (error) {
+                            showToastMessage('error', error.message);
+                            console.log(error);
+                            // setLoading(false);
+                        }
+                    });
+                },
+            );
+>>>>>>> 3b7c1e6 (the firt commit)
         }
     };
 

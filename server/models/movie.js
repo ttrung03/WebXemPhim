@@ -54,6 +54,7 @@ const Movies = new Schema(
       type: Number,
       required: false,
     },
+<<<<<<< HEAD
     episodeDuration: {
       type: Number,
       required: false,
@@ -95,6 +96,11 @@ const Movies = new Schema(
       slug: "name", 
       unique: true 
     },
+=======
+    viewed: { type: Number, required: false, default: 0 },
+
+    slug: { type: String, slug: "name", unique: true },
+>>>>>>> 3b7c1e6 (the firt commit)
   },
   {
     timestamps: true,
@@ -103,6 +109,7 @@ const Movies = new Schema(
 
 // Tạo chỉ mục
 Movies.index(
+<<<<<<< HEAD
   { 
     name: "text",
     overview: "text",
@@ -112,5 +119,11 @@ Movies.index(
 
 // Tạo chỉ mục cho tmdb_id và type
 Movies.index({ tmdb_id: 1, type: 1 }, { unique: true });
+=======
+  { name: "text",
+    overview : "text",
+    country :"text",
+  });
+>>>>>>> 3b7c1e6 (the firt commit)
 
 module.exports = mongoose.model("movies", Movies);

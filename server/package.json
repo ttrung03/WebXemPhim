@@ -1,6 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "@supabase/supabase-js": "^2.49.4",
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
     "axios": "^1.7.9",
     "bcrypt": "^5.1.0",
     "cookie-session": "^2.0.0",

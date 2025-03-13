@@ -5,12 +5,20 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import axios from 'axios';
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
 
 import { createMovie } from '~/apiService/movie';
 import { getAll } from '~/apiService/genres';
 import { AuthContext } from '~/context';
+<<<<<<< HEAD
 import { supabase } from '~/components/Supabase';
+=======
+
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+>>>>>>> 3b7c1e6 (the firt commit)
 
 const cs = classNames.bind(styles);
 
@@ -19,6 +27,7 @@ const CreateMovie = () => {
     const [genres, setGenres] = useState([]);
     const [backdrop, setBackdrop] = useState('');
     const [posTer, setPosTer] = useState('');
+<<<<<<< HEAD
     const [uploading, setUploading] = useState(false);
     const [seasons, setSeasons] = useState('');
     const [episodes, setEpisodes] = useState('');
@@ -100,6 +109,30 @@ const CreateMovie = () => {
             reset();
             setBackdrop('');
             setPosTer('');
+=======
+
+    const { showToastMessage } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const storage = getStorage();
+
+    const { register, handleSubmit, reset } = useForm();
+
+    const Onsubmit = async (data) => {
+        data.ibmPoints = Number(data.ibmPoints);
+        data.episodes = Number(data.episodes);
+        if (posTer) {
+            data.poster_path = posTer;
+        }
+        if (backdrop) {
+            data.backdrop_path = backdrop;
+        }
+
+        try {
+            const res = await createMovie(data);
+            navigate('/admin/dashboard/movies');
+            showToastMessage('success', res.message);
+            reset();
+>>>>>>> 3b7c1e6 (the firt commit)
         } catch (error) {
             showToastMessage('error', error.message);
         }
@@ -121,6 +154,33 @@ const CreateMovie = () => {
         getGenres();
     }, []);
 
+<<<<<<< HEAD
+=======
+    const handleUploadImg = (e) => {
+        const image = e.target.files[0];
+        if (image) {
+            const storageRef = ref(storage, `images/${image.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, image);
+            uploadTask.on(
+                'state_changed',
+                () => {},
+                (error) => {
+                    console.error(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        if (e.target.id === 'backDrop') {
+                            setBackdrop(downloadURL);
+                        } else {
+                            setPosTer(downloadURL);
+                        }
+                    });
+                },
+            );
+        }
+    };
+
+>>>>>>> 3b7c1e6 (the firt commit)
     return (
         <div className={cs('create_film_container')}>
             <h3 className={cs('create_film_title')}>Thêm phim mới</h3>
@@ -164,6 +224,7 @@ const CreateMovie = () => {
                         </Form.Group>
                     </Col>
                     {isTvShow && (
+<<<<<<< HEAD
                         <div className={styles.tv_show_section}>
                             <h3>Thông tin phim dài tập</h3>
                             <div className={styles.form_group}>
@@ -213,6 +274,32 @@ const CreateMovie = () => {
                                 </select>
                             </div>
                         </div>
+=======
+                        <>
+                            <Col>
+                                <Form.Group>
+                                    <Form.Label className={cs('create_film_label')}>Phần</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="number"
+                                        {...register('seasons')}
+                                        className={cs('create_film_input')}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group>
+                                    <Form.Label className={cs('create_film_label')}>Số tập phim</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="number"
+                                        {...register('episodes')}
+                                        className={cs('create_film_input')}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </>
+>>>>>>> 3b7c1e6 (the firt commit)
                     )}
                 </Row>
                 <Row>
@@ -298,6 +385,7 @@ const CreateMovie = () => {
                     <Col>
                         <Form.Group>
                             <Form.Label className={cs('create_film_label')}>Ảnh nền</Form.Label>
+<<<<<<< HEAD
                             {backdrop && (
                                 <div className={cs('image-preview')}>
                                     <img 
@@ -314,12 +402,21 @@ const CreateMovie = () => {
                                 onChange={handleUploadImg}
                                 className={cs('create_film_input')}
                                 disabled={uploading}
+=======
+                            {backdrop && <img className={cs('create_film_image')} src={backdrop} alt="Backdrop" />}
+                            <Form.Control
+                                type="file"
+                                id="backDrop"
+                                onChange={handleUploadImg}
+                                className={cs('create_film_input')}
+>>>>>>> 3b7c1e6 (the firt commit)
                             />
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group>
                             <Form.Label className={cs('create_film_label')}>Ảnh đại diện</Form.Label>
+<<<<<<< HEAD
                             {posTer && (
                                 <div className={cs('image-preview')}>
                                     <img 
@@ -336,16 +433,32 @@ const CreateMovie = () => {
                                 onChange={handleUploadImg}
                                 className={cs('create_film_input')}
                                 disabled={uploading}
+=======
+                            {posTer && <img className={cs('create_film_image')} src={posTer} alt="Poster" />}
+                            <Form.Control
+                                type="file"
+                                onChange={handleUploadImg}
+                                className={cs('create_film_input')}
+>>>>>>> 3b7c1e6 (the firt commit)
                             />
                         </Form.Group>
                     </Col>
                 </Row>
+<<<<<<< HEAD
                 <button type="submit" className={cs('create_film_button')} disabled={uploading}>
                     {uploading ? 'Đang tải ảnh...' : 'Thêm phim'}
+=======
+                <button type="submit" className={cs('create_film_button')}>
+                    Thêm phim
+>>>>>>> 3b7c1e6 (the firt commit)
                 </button>
             </Form>
         </div>
     );
 };
 
+<<<<<<< HEAD
 export default CreateMovie;
+=======
+export default CreateMovie;
+>>>>>>> 3b7c1e6 (the firt commit)
