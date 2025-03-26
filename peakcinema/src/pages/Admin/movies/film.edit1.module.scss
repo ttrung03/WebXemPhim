@@ -1,0 +1,132 @@
+/* Container */
+.edit_film_container {
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Tiêu đề */
+.edit_film_title {
+    text-align: center;
+    font-size: 3rem; /* Font chữ lớn hơn */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Form */
+.edit_film_form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Tăng khoảng cách giữa các mục */
+}
+
+/* Nhãn */
+.edit_film_label {
+    font-size: 1.8rem; /* Font chữ lớn hơn */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+/* Input và Select */
+.edit_film_input,
+.edit_film_select {
+    font-size: 1.8rem; /* Tăng kích thước chữ */
+    padding: 15px; /* Tăng padding */
+    border-radius: 8px; /* Bo góc mềm mại */
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+    width: 100%;
+}
+
+/* Thẻ Option trong Select */
+.edit_film_select option {
+    font-size: 1.8rem; /* Tăng kích thước chữ cho các mục lựa chọn */
+    padding: 10px; /* Tăng padding cho các mục */
+}
+
+/* Textarea */
+.edit_film_textarea {
+    font-size: 1.8rem; /* Tăng kích thước chữ */
+    padding: 15px; /* Tăng padding */
+    resize: none;
+    height: 120px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+/* Focus Style */
+.edit_film_input:focus,
+.edit_film_select:focus,
+.edit_film_textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Ảnh */
+.edit_film_image {
+    display: block;
+    margin: 15px auto;
+    max-height: 200px; /* Tăng kích thước ảnh */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nút Submit */
+.edit_film_button {
+    display: block;
+    margin: 30px auto 0;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 2rem; /* Font chữ lớn hơn */
+    font-weight: bold;
+    padding: 15px 25px; /* Tăng kích thước nút */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.edit_film_button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .edit_film_container {
+        padding: 20px;
+    }
+
+    .edit_film_title {
+        font-size: 2.4rem; /* Giảm kích thước tiêu đề trên màn hình nhỏ */
+    }
+
+    .edit_film_label {
+        font-size: 1.6rem; /* Font chữ nhỏ hơn một chút */
+    }
+
+    .edit_film_input,
+    .edit_film_select,
+    .edit_film_textarea {
+        font-size: 1.6rem; /* Giảm kích thước chữ trên màn hình nhỏ */
+        padding: 12px; /* Giảm padding */
+    }
+
+    .edit_film_select option {
+        font-size: 1.6rem; /* Giảm kích thước chữ trong các mục chọn */
+    }
+
+    .edit_film_button {
+        font-size: 1.8rem; /* Giảm kích thước chữ nút */
+        padding: 12px 20px; /* Giảm kích thước nút */
+    }
+}
