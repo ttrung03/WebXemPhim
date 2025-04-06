@@ -2,7 +2,7 @@ import styles from './Genres.module.scss';
 import classNames from 'classnames/bind';
 import { Button, Table } from 'react-bootstrap';
 import { deleteGenres, getAll } from '~/apiService/genres';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Panigation from '~/layout/component/Panigation';
 
@@ -14,7 +14,7 @@ function GenresPage() {
     const [currPage, setCurrPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    const getGenres = async () => {
+    const getGenres = useCallback(async () => {
         try {
             const res = await getAll(currPage, 15);
             if (res.success) {
@@ -25,11 +25,11 @@ function GenresPage() {
         } catch (error) {
             console.log(error);
         }
-    };
+    }, [currPage]);
 
     useEffect(() => {
         getGenres();
-    }, [currPage]);
+    }, [getGenres]);
 
     const handleDeleteGenres = async (id) => {
         if (window.confirm('Bạn thật sự muốn xoá thể loại này')) {

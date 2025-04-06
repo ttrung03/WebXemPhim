@@ -429,5 +429,73 @@ export const tmdbService = {
     }
 };
 
+// Hàm tải ảnh từ URL và upload lên Supabase
+async function uploadImageFromUrl(imageUrl, fileName) {
+    try {
+        console.log('Downloading image from TMDB:', imageUrl);
+        
+        // Tải ảnh từ TMDB
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch image: ${response.statusText}`);
+        }
+        
+        const blob = await response.blob();
+        console.log('Image downloaded, size:', blob.size);
+        
+        // Upload lên Supabase
+        console.log('Uploading to Supabase:', fileName);
+        const { data, error } = await supabase.storage
+            .from('movies')
+            .upload(fileName, blob, {
+                upsert: true,
+                contentType: 'image/jpeg'
+            });
+            
+        if (error) {
+            console.error('Supabase upload error:', error);
+            return imageUrl; // Trả về URL TMDB nếu upload thất bại
+        }
+        
+        console.log('Upload successful:', data);
+        
+        // Lấy URL công khai từ Supabase
+        const { data: { publicUrl } } = supabase.storage
+            .from('movies')
+            .getPublicUrl(fileName);
+            
+        console.log('Supabase public URL:', publicUrl);
+        return publicUrl;
+    } catch (error) {
+        console.error('Error in uploadImageFromUrl:', error);
+        return imageUrl; // Trả về URL TMDB nếu có lỗi
+    }
+}
 
- 
+// Hàm xử lý upload ảnh cho phim
+async function handleMovieImages(movie, movieId) {
+    try {
+        let backdropPath = '/default-backdrop.jpg';
+        let posterPath = '/default-poster.jpg';
+        
+        if (movie.backdrop_path) {
+            const backdropUrl = `${IMAGE_BASE_URL}${movie.backdrop_path}`;
+            const backdropFileName = `movies/${movieId}/backdrop.jpg`;
+            backdropPath = await uploadImageFromUrl(backdropUrl, backdropFileName);
+        }
+        
+        if (movie.poster_path) {
+            const posterUrl = `${IMAGE_BASE_URL}${movie.poster_path}`;
+            const posterFileName = `movies/${movieId}/poster.jpg`;
+            posterPath = await uploadImageFromUrl(posterUrl, posterFileName);
+        }
+        
+        return { backdropPath, posterPath };
+    } catch (error) {
+        console.error('Error handling movie images:', error);
+        return {
+            backdropPath: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : '/default-backdrop.jpg',
+            posterPath: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : '/default-poster.jpg'
+        };
+    }
+}

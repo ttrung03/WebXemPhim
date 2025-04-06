@@ -3,6 +3,9 @@ import styles from './ListMovie.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 import requestApi from '~/apiService';
 import MovieItem from '../MovieItem';
@@ -12,28 +15,67 @@ const cs = classNames.bind(styles);
 function ListMovie({ category, type }) {
     const [lists, setLists] = useState([]);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         async function getList() {
-            if (category === 'movie') {
-                const result = await requestApi.getTypeMovie(type, { params: {} });
-                setLists(result.data.slice(0, 10));
+            try {
+                let result;
+                if (category === 'movie') {
+                    result = await requestApi.getTypeMovie(type, { params: {} });
+                } else {
+                    result = await requestApi.getTypeTV(type, { params: {} });
+                }
+                
+                if (result && result.data) {
+                    // Hiển thị tối đa 20 phim
+                    setLists(result.data.slice(0, 20));
+                }
                 setLoading(false);
-            } else {
-                const result = await requestApi.getTypeTV(type, { params: {} });
-                setLists(result.data.slice(0, 10));
+            } catch (error) {
+                console.error('Error fetching movies:', error);
                 setLoading(false);
             }
         }
         getList();
-    }, [category]);
+    }, [category, type]);
+
     return (
         <div className={cs('wrapper')}>
-            <Swiper grabCursor spaceBetween={10} slidesPerView={'auto'} className={cs('swapper')}>
+            <Swiper
+                modules={[Navigation]}
+                navigation
+                grabCursor
+                spaceBetween={15}
+                slidesPerView={'auto'}
+                className={cs('swiper')}
+                breakpoints={{
+                    320: {
+                        slidesPerView: 2,
+                        spaceBetween: 10
+                    },
+                    480: {
+                        slidesPerView: 3,
+                        spaceBetween: 15
+                    },
+                    768: {
+                        slidesPerView: 4,
+                        spaceBetween: 15
+                    },
+                    1024: {
+                        slidesPerView: 5,
+                        spaceBetween: 15
+                    },
+                    1200: {
+                        slidesPerView: 6,
+                        spaceBetween: 15
+                    }
+                }}
+            >
                 {loading
-                    ? Array(5)
-                          .fill(7)
-                          .map((v,i) => (
-                              <SwiperSlide key ={i} className={cs('swiperitem_ske')}>
+                    ? Array(6)
+                          .fill(0)
+                          .map((_, i) => (
+                              <SwiperSlide key={i} className={cs('swiperitem_ske')}>
                                   <Skeleton className={cs('skeleton-movie-item')} />
                               </SwiperSlide>
                           ))

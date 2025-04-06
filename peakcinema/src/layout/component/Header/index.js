@@ -9,7 +9,7 @@ const cs = classNames.bind(styles);
 
 function Header({ className, onClick }) {
     const navigate = useNavigate();
-    const userFirebase = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
 
     return (
         <header className={cs('header-wrapper', className)}>
@@ -20,7 +20,7 @@ function Header({ className, onClick }) {
             </Link>
             <SearchBox />
             <div className={cs('header-login')}>
-                {userFirebase ? (
+                {user ? (
                     <MenuItems />
                 ) : (
                     <button className={cs('header-btn-login')} onClick={() => navigate('/login')}>

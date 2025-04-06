@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import styles from './Dashboard.module.scss';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
+import { Card, Row, Col, Button } from 'react-bootstrap';
+import { FaUsers, FaFilm, FaDownload } from 'react-icons/fa';
 
 import { getAllCount } from '~/apiService/user';
 import { getCountMovieMonth, getTotalView } from '~/apiService/movie';
@@ -21,6 +24,7 @@ function StatisticDashboard() {
     const [countMovie, setCountMovie] = useState(0);
     const [countComment, setCountComment] = useState(0);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCount = async () => {
@@ -86,8 +90,10 @@ function StatisticDashboard() {
                 </LineChart>
                 <h4>Số Lượng Người Dùng Đăng Kí Trên Hệ Thống</h4>
             </div>
+            
         </div>
     );
 }
 
 export default StatisticDashboard;
+

@@ -17,14 +17,14 @@ function Footer({ className }) {
                     <li className={cs('item')}>
                         <a href="tel:phonenumber" className={cs('item-link')}>
                             <FontAwesomeIcon className={cs('icon')} icon={faPhone} />
-                            Phone Number : kocotieude
+                            Phone Number : 0900.xxx.xxx
                         </a>
                     </li>
 
                     <li className={cs('item')}>
                         <a href="mailto:youremail" className={cs('item-link')}>
                             <FontAwesomeIcon className={cs('icon')} icon={faEnvelope} />
-                            Email : dangsang@gmail.com
+                            Email : support@gmail.com
                         </a>
                     </li>
 
@@ -41,7 +41,7 @@ function Footer({ className }) {
                 <h4 className={cs('heading')}>Follow Me</h4>
                 <ul className={cs('list')}>
                     <li className={cs('item')}>
-                        <a href="https://web.facebook.com/ndsanggg0510" target="_blank" className={cs('item-link')}>
+                        <a href="https://web.facebook.com/admin" target="_blank" className={cs('item-link')}>
                             <FontAwesomeIcon className={cs('icon')} icon={faFacebook} />
                             Facebook
                         </a>

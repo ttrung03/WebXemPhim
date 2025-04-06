@@ -9,21 +9,18 @@ const cs = classNames.bind(styles);
 
 function Dashboard() {
     const { role } = useContext(AuthContext);
-
     const pathname = '/admin/dashboard';
-
     const user = JSON.parse(localStorage.getItem('user'));
 
-    if (!user) {
-        return <Navigate to="/movie" />;
+    // Kiểm tra authentication
+    if (!user || !role) {
+        return <Navigate to="/" />;
     }
-    if (!role) {
-        return <Navigate to="/movie" />;
-    }
+
     return (
         <div className={cs('admin_wrapper')}>
             <div className={cs('admin_Sidebar')}>
-                <Link to="/movie" className={cs('admin_logo')}>
+                <Link to="/" className={cs('admin_logo')}>
                     <img className={cs('admin_logo-img')} src={image.logo} alt="logo" />
                     <span className={cs('admin_first-titl')}>Peak</span>
                     <span className={cs('admin_last-titl')}>Cinema</span>
@@ -42,15 +39,15 @@ function Dashboard() {
                 </NavLink>
 
                 <button className={cs('admin_btn')}>
-                    <a
-                        href="/movie"
+                    <Link
+                        to="/"
                         onClick={() => {
                             localStorage.removeItem('user');
                         }}
                         className={cs('admin_btn-logout')}
                     >
                         Đăng xuất
-                    </a>
+                    </Link>
                 </button>
             </div>
 

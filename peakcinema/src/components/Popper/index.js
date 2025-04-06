@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './Popper.module.scss';
+import styles from '~/components/Popper/Popper.module.scss';
 import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.0",
     "cookie-session": "^2.0.0",

@@ -13,7 +13,7 @@ const cs = classNames.bind(styles);
 
 function MenuItems() {
     const [menu, setMenu] = useState(false);
-    const userFirebase = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
     const handleClick = () => setMenu((menu) => !menu);
 
     return (
@@ -51,7 +51,7 @@ function MenuItems() {
                 // hideOnClick={false}
             >
                 <img
-                    src={userFirebase.avatar || image.avatar}
+                    src={user.avatar || image.avatar}
                     className={cs('user-avatar')}
                     alt=""
                     onClick={handleClick}

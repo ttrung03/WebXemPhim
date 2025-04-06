@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import './contex.scss';
+import '~/context/contex.scss';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

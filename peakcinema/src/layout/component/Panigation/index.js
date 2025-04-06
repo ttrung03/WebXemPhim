@@ -20,13 +20,13 @@ const Panigation = (props) => {
     return (
         <Pagination size="lg">
             <Pagination.First
-                disabled={props.currPage == 1}
+                disabled={props.currPage === 1}
                 className={cs('page-item')}
                 onClick={() => props.onSetCurrentPage(props.currPage - 1)}
             />
             {pages.map((page) => (
                 <Pagination.Item
-                    active={props.currPage == page}
+                    active={props.currPage === page}
                     className={cs('page-item')}
                     key={page}
                     onClick={() => props.onSetCurrentPage(page)}
@@ -35,7 +35,7 @@ const Panigation = (props) => {
                 </Pagination.Item>
             ))}
             <Pagination.Last
-                disabled={props.currPage == pages.length}
+                disabled={props.currPage === pages.length}
                 className={cs('page-item')}
                 onClick={() => props.onSetCurrentPage(props.currPage + 1)}
             />

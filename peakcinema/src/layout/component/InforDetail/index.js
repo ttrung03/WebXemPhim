@@ -5,7 +5,7 @@ import styles from './Infor.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faPlay, faRemove } from '@fortawesome/free-solid-svg-icons';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '~/context';
 
 import { addFavouriteMovie, getFavoritesMovies } from '~/apiService/user';
@@ -23,7 +23,7 @@ function InforDetail({ width, movieDetail }) {
     const user = JSON.parse(localStorage.getItem('user'));
     const [userFavoriteMovies, setUserFavoriteMovies] = useState([]);
 
-    const getUserFavoritesMovies = async () => {
+    const getUserFavoritesMovies = useCallback(async () => {
         if (user) {
             try {
                 const result = await getFavoritesMovies(user.id);
@@ -34,11 +34,11 @@ function InforDetail({ width, movieDetail }) {
                 console.log(error);
             }
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         getUserFavoritesMovies();
-    }, []);
+    }, [getUserFavoritesMovies]);
 
     const handleAddFavoriteMovie = async () => {
         if (user) {
@@ -63,7 +63,7 @@ function InforDetail({ width, movieDetail }) {
             }
         };
         getGenres();
-    }, []);
+    }, [movieDetail.slug]);
     return (
         <div>
             <div className={cs('contain')}>

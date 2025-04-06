@@ -1,8 +1,9 @@
 import axios from 'axios';
 import queryString from 'query-string';
+
 const instance = axios.create({
     //baseURL: 'https://server-five-chi.vercel.app/api',
-     baseURL: 'http://localhost:8888/api',
+    baseURL: 'http://localhost:8888/api',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -14,6 +15,7 @@ instance.interceptors.request.use(async function (config) {
     // Do something before request is sent
     return config;
 });
+
 instance.interceptors.response.use(
     function (res) {
         // Any status code that lie within the range of 2xx cause this function to trigger
@@ -35,9 +37,17 @@ export default instance;
 
 export const Img = {
     baseImg(imgPath) {
-        return `${imgPath}`;
+        if (!imgPath) return '';
+        if (imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        return `http://localhost:8888/uploads/${imgPath}`;
     },
     posterImg(imgPath) {
-        return `${imgPath}`;
+        if (!imgPath) return '';
+        if (imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        return `http://localhost:8888/uploads/${imgPath}`;
     },
 };

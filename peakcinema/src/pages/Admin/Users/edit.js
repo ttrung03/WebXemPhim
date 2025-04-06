@@ -8,9 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { getDetail, editUser } from '~/apiService/user';
 import { AuthContext } from '~/context';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { firebaseConnect } from '~/components/Firebase';
-
+import { supabase } from '~/components/Supabase';
 import image from '~/assets/Images';
 
 const cs = classNames.bind(styles);
@@ -22,8 +20,6 @@ const EditUser = () => {
     const { email } = useParams();
     const naviagte = useNavigate();
     const { showToastMessage } = useContext(AuthContext);
-
-    const storage = getStorage();
 
     const { register, handleSubmit, reset } = useForm();
 
@@ -53,30 +49,34 @@ const EditUser = () => {
             }
         };
         getUser();
-    }, []);
+    }, [email, reset]);
 
-    const handleUploadImg = (e) => {
+    const handleUploadImg = async (e) => {
         const image = e.target.files[0];
         if (image) {
-            const storageRef = ref(storage, `images/${image.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, image);
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {},
-                (error) => {
-                    console.log(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        try {
-                            setAvatar(downloadURL);
-                        } catch (error) {
-                            console.log(error);
-                            // setLoading(false);
-                        }
+            try {
+                // Tạo tên file duy nhất
+                const fileExt = image.name.split('.').pop();
+                const fileName = `${user._id}_${Date.now()}.${fileExt}`;
+                const filePath = fileName;
+
+                const { error: uploadError } = await supabase.storage
+                    .from('avatars')
+                    .upload(filePath, image, {
+                        upsert: true
                     });
-                },
-            );
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(filePath);
+
+                setAvatar(publicUrl);
+            } catch (error) {
+                console.error(error);
+                showToastMessage('error', error.message);
+            }
         }
     };
 

@@ -11,10 +11,7 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useRef, useState } from 'react';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-
-//Cần phải có dòng này
-import { firebaseConnect } from '~/components/Firebase';
+import { supabase } from '~/components/Supabase';
 import { AuthContext } from '~/context';
 import { UpdateIcon } from '~/components/Icon';
 import image from '~/assets/Images';
@@ -23,8 +20,6 @@ import { changePassword, deleteUserClient, updateUserClient } from '~/apiService
 const cs = classNames.bind(styles);
 
 function Profile() {
-    const storage = getStorage();
-
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const { showToastMessage } = useContext(AuthContext);
@@ -43,10 +38,6 @@ function Profile() {
     const confirmBtn = useRef();
 
     const filterRef = useRef();
-
-    // const refInputEmail = useRef();
-    // const refIconEmail = useRef();
-    // const refIconSentEmail = useRef();
 
     const handleEditName = () => {
         refContent.current.setAttribute('contentEditable', true);
@@ -118,40 +109,46 @@ function Profile() {
         confirmBtn.current.addEventListener('click', handleConfirmDelete);
     };
 
-    //Nếu lỗi thì xem đã import firebaseConnect từ component Firebase chưa chưa phải có dòng này
-
-    const handleUploadImg = (e) => {
+    const handleUploadImg = async (e) => {
         const image = e.target.files[0];
         filterRef.current.classList.add(cs('filter'));
+        
         if (image) {
-            const storageRef = ref(storage, `images/${image.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, image);
-
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {
-                    setLoading(true);
-                },
-                (error) => {
-                    showToastMessage('error', error.message);
-                    console.log(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        try {
-                            filterRef.current.classList.remove(cs('filter'));
-                            const res = await updateUserClient({ avatar: downloadURL }, user.email);
-                            localStorage.setItem('user', JSON.stringify({ ...user, avatar: downloadURL }));
-                            showToastMessage('success', 'Cập nhật ảnh đại diện thành công');
-                            setLoading(false);
-                        } catch (error) {
-                            showToastMessage('error', error.message);
-                            console.log(error);
-                            // setLoading(false);
-                        }
+            try {
+                setLoading(true);
+                
+                // Upload file to Supabase Storage
+                const fileExt = image.name.split('.').pop();
+                const fileName = `${user.id}.${fileExt}`;
+                const filePath = `${fileName}`;
+                
+                const { data, error: uploadError } = await supabase.storage
+                    .from('avatars')
+                    .upload(filePath, image, {
+                        upsert: true
                     });
-                },
-            );
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+                // Get public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(filePath);
+
+                // Update user profile
+                const res = await updateUserClient({ avatar: publicUrl }, user.email);
+                localStorage.setItem('user', JSON.stringify({ ...user, avatar: publicUrl }));
+                
+                filterRef.current.classList.remove(cs('filter'));
+                showToastMessage('success', 'Cập nhật ảnh đại diện thành công');
+            } catch (error) {
+                showToastMessage('error', error.message);
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
         }
     };
 

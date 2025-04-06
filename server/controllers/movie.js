@@ -6,8 +6,19 @@ const History = require("../models/histories");
 class MovieController {
   async create(req, res) {
     try {
-      // Bỏ hàm kiểm tra phim đã tồn tại
-      
+      // Kiểm tra phim đã tồn tại
+      const existingMovie = await Movie.findOne({ 
+        tmdb_id: req.body.tmdb_id,
+        type: req.body.type 
+      });
+
+      if (existingMovie) {
+        return res.status(400).json({
+          success: false,
+          message: "Phim này đã tồn tại trong hệ thống"
+        });
+      }
+
       // Chuyển đổi genres thành array nếu chưa phải
       if (req.body.genres && !Array.isArray(req.body.genres)) {
         req.body.genres = [req.body.genres];
@@ -15,11 +26,11 @@ class MovieController {
       
       // Chuyển đổi genres sang string
       req.body.genres = req.body.genres.map(genre => genre.toString());
-  
+
       // Tạo phim mới
       const movie = new Movie(req.body);
       await movie.save();
-  
+
       res.status(200).json({
         success: true,
         message: "Thêm phim thành công",
@@ -33,6 +44,7 @@ class MovieController {
       });
     }
   }
+
 
   async update(req, res) {
     try {
