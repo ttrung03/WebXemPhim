@@ -15,7 +15,7 @@ function CommentMovie() {
 
     const getCommentByid = async () => {
         try {
-            if (id == 'month') {
+            if (id === 'month') {
                 const allComment = await getCommentMonth();
                 setComments(allComment.data);
             } else {
@@ -29,7 +29,7 @@ function CommentMovie() {
     };
     useEffect(() => {
         getCommentByid();
-    }, [id]);
+    }, [id, getCommentByid]);
 
     const handleDeleteComment = async (id) => {
         try {

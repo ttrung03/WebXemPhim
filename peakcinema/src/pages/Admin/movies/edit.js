@@ -7,9 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { firebaseConnect } from '~/components/Firebase';
-
+import { supabase } from '~/components/Supabase';
 import { editMovie } from '~/apiService/movie';
 import { getAll } from '~/apiService/genres';
 import requestApi from '~/apiService';
@@ -28,7 +26,6 @@ const EditMovie = () => {
 
     const { showToastMessage } = useContext(AuthContext);
     const navigate = useNavigate();
-    const storage = getStorage();
 
     const { register, handleSubmit, reset } = useForm();
 
@@ -89,31 +86,37 @@ const EditMovie = () => {
         getGenres();
     }, []);
 
-    const handleUploadImg = (e) => {
+    const handleUploadImg = async (e) => {
         const image = e.target.files[0];
         if (image) {
-            const storageRef = ref(storage, `images/${image.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, image);
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {},
-                (error) => {
-                    console.log(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        try {
-                            if (e.target.id == 'backDrop') {
-                                setBackdrop(downloadURL);
-                            } else {
-                                setPosTer(downloadURL);
-                            }
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    });
-                },
-            );
+            try {
+                // Upload file to Supabase Storage
+                const fileExt = image.name.split('.').pop();
+                const fileName = `${movie._id}_${Date.now()}.${fileExt}`;
+                const filePath = `${fileName}`;
+                
+                const { error: uploadError } = await supabase.storage
+                    .from('movies')
+                    .upload(filePath, image);
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+                // Get public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('movies')
+                    .getPublicUrl(filePath);
+
+                if (e.target.id === 'backDrop') {
+                    setBackdrop(publicUrl);
+                } else {
+                    setPosTer(publicUrl);
+                }
+            } catch (error) {
+                console.error(error);
+                showToastMessage('error', error.message);
+            }
         }
     };
 
