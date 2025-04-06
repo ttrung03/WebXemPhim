@@ -1,13 +1,5 @@
 {
-<<<<<<< HEAD
-    "name": "tiktokapp",
-=======
-<<<<<<< HEAD
     "name": "peakcinema",
-=======
-    "name": "tiktokapp",
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -21,13 +13,7 @@
         "@fortawesome/react-fontawesome": "^0.1.19",
         "@mui/icons-material": "^6.2.0",
         "@mui/material": "^6.2.0",
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
         "@supabase/supabase-js": "^2.39.3",
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
@@ -36,16 +22,6 @@
         "bootstrap": "^5.2.2",
         "classnames": "^2.3.2",
         "dotenv": "^16.4.5",
-<<<<<<< HEAD
-        "firebase": "^9.23.0",
-        "firebase-tools": "^11.15.0",
-=======
-<<<<<<< HEAD
-=======
-        "firebase": "^9.23.0",
-        "firebase-tools": "^11.15.0",
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         "fuse.js": "^7.0.0",
         "moment": "^2.29.4",
         "normalize.css": "^8.0.1",
@@ -61,14 +37,6 @@
         "react-scripts": "5.0.1",
         "react-toastify": "^9.0.8",
         "recharts": "^2.1.16",
-<<<<<<< HEAD
-        "svgo": "^3.0.2",
-=======
-<<<<<<< HEAD
-=======
-        "svgo": "^3.0.2",
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         "swiper": "^8.4.3",
         "web-vitals": "^2.1.4"
     },
@@ -80,15 +48,7 @@
     },
     "scripts": {
         "start": "react-app-rewired start",
-<<<<<<< HEAD
-        "build": "react-app-rewired build",
-=======
-<<<<<<< HEAD
         "build": "CI=false react-app-rewired build",
-=======
-        "build": "react-app-rewired build",
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         "test": "react-app-rewired test",
         "eject": "react-app-rewired eject"
     },

@@ -4,25 +4,11 @@ const cors = require("cors");
 const morgan = require("morgan");
 const connect = require("./Db/connect");
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 const authRouter = require("./routes/authRoute");
 const userRouter = require("./routes/userRoute");
 const genresRouter = require("./routes/genresRoute");
 const movieRouter = require("./routes/movieRoute");
 const commentRouter = require("./routes/commentRoute");
-=======
->>>>>>> method
-const authRouter = require("./routes/auth.route");
-const userRouter = require("./routes/user.route");
-const genresRouter = require("./routes/genres.route");
-const movieRouter = require("./routes/movie.route");
-const commentRouter = require("./routes/comment.route");
-<<<<<<< HEAD
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
 const app = express();
 // khai báo cổng

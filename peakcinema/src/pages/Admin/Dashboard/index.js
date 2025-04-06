@@ -2,15 +2,9 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import styles from './Dashboard.module.scss';
 import classNames from 'classnames/bind';
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
 import { Card, Row, Col, Button } from 'react-bootstrap';
 import { FaUsers, FaFilm, FaDownload } from 'react-icons/fa';
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
 import { getAllCount } from '~/apiService/user';
 import { getCountMovieMonth, getTotalView } from '~/apiService/movie';
@@ -30,13 +24,7 @@ function StatisticDashboard() {
     const [countMovie, setCountMovie] = useState(0);
     const [countComment, setCountComment] = useState(0);
     const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     const navigate = useNavigate();
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
     useEffect(() => {
         const getCount = async () => {
@@ -102,22 +90,10 @@ function StatisticDashboard() {
                 </LineChart>
                 <h4>Số Lượng Người Dùng Đăng Kí Trên Hệ Thống</h4>
             </div>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
             
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         </div>
     );
 }
 
 export default StatisticDashboard;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method

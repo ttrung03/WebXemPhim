@@ -7,19 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-<<<<<<< HEAD
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { firebaseConnect } from '~/components/Firebase';
-
-=======
-<<<<<<< HEAD
 import { supabase } from '~/components/Supabase';
-=======
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { firebaseConnect } from '~/components/Firebase';
-
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 import { editMovie } from '~/apiService/movie';
 import { getAll } from '~/apiService/genres';
 import requestApi from '~/apiService';
@@ -38,14 +26,6 @@ const EditMovie = () => {
 
     const { showToastMessage } = useContext(AuthContext);
     const navigate = useNavigate();
-<<<<<<< HEAD
-    const storage = getStorage();
-=======
-<<<<<<< HEAD
-=======
-    const storage = getStorage();
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
     const { register, handleSubmit, reset } = useForm();
 
@@ -106,9 +86,6 @@ const EditMovie = () => {
         getGenres();
     }, []);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     const handleUploadImg = async (e) => {
         const image = e.target.files[0];
         if (image) {
@@ -140,37 +117,6 @@ const EditMovie = () => {
                 console.error(error);
                 showToastMessage('error', error.message);
             }
-=======
->>>>>>> method
-    const handleUploadImg = (e) => {
-        const image = e.target.files[0];
-        if (image) {
-            const storageRef = ref(storage, `images/${image.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, image);
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {},
-                (error) => {
-                    console.log(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        try {
-                            if (e.target.id == 'backDrop') {
-                                setBackdrop(downloadURL);
-                            } else {
-                                setPosTer(downloadURL);
-                            }
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    });
-                },
-            );
-<<<<<<< HEAD
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         }
     };
 

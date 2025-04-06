@@ -8,19 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { getDetail, editUser } from '~/apiService/user';
 import { AuthContext } from '~/context';
-<<<<<<< HEAD
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { firebaseConnect } from '~/components/Firebase';
-
-=======
-<<<<<<< HEAD
 import { supabase } from '~/components/Supabase';
-=======
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { firebaseConnect } from '~/components/Firebase';
-
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 import image from '~/assets/Images';
 
 const cs = classNames.bind(styles);
@@ -33,16 +21,6 @@ const EditUser = () => {
     const naviagte = useNavigate();
     const { showToastMessage } = useContext(AuthContext);
 
-<<<<<<< HEAD
-    const storage = getStorage();
-
-=======
-<<<<<<< HEAD
-=======
-    const storage = getStorage();
-
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
     const { register, handleSubmit, reset } = useForm();
 
     const Onsubmit = async (data) => {
@@ -71,9 +49,6 @@ const EditUser = () => {
             }
         };
         getUser();
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     }, [email, reset]);
 
     const handleUploadImg = async (e) => {
@@ -102,36 +77,6 @@ const EditUser = () => {
                 console.error(error);
                 showToastMessage('error', error.message);
             }
-=======
->>>>>>> method
-    }, []);
-
-    const handleUploadImg = (e) => {
-        const image = e.target.files[0];
-        if (image) {
-            const storageRef = ref(storage, `images/${image.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, image);
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {},
-                (error) => {
-                    console.log(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        try {
-                            setAvatar(downloadURL);
-                        } catch (error) {
-                            console.log(error);
-                            // setLoading(false);
-                        }
-                    });
-                },
-            );
-<<<<<<< HEAD
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
         }
     };
 

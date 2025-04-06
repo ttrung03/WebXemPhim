@@ -8,13 +8,7 @@ import requestApi from '~/apiService';
 import MovieItem from '~/layout/component/MovieItem';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import Pagination from '~/layout/component/Panigation';
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
 const cs = classNames.bind(styles);
 
@@ -23,24 +17,15 @@ function GridType() {
     const { category, type, name, id } = useParams();
     const [lists, setLists] = useState([]);
     const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 20;
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
     useEffect(() => {
         async function getList() {
             let result = null;
             setLoading(true);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
             try {
                 switch (category) {
                     case 'movie':
@@ -87,39 +72,6 @@ function GridType() {
         setCurrentPage(page);
         window.scrollTo(0, 0);
     };
-=======
->>>>>>> method
-            switch (category) {
-                case 'movie':
-                    result = await requestApi.getTypeMovie(type, { params: {} });
-                    break;
-                case 'tv':
-                    result = await requestApi.getTypeTV(type, { params: {} });
-                    break;
-                case 'favorite':
-                    result = await requestApi.getFavoritesList(user.id);
-                    result.data = result.data.map((data) => data.movieId);
-                    break;
-                case 'history':
-                    result = await requestApi.getHistoryList(user.id);
-                    result.data = result.data.map((data) => data.movieId);
-
-                    break;
-                case 'search':
-                    result = await requestApi.getSearch({ params: { keyword: type } });
-                    break;
-                default:
-                    result = await requestApi.getGenresMovie(id);
-            }
-            setLists(result.data);
-            setLoading(false);
-        }
-        getList();
-    }, [category, type, id]);
-<<<<<<< HEAD
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
     return (
         <div className={cs('wrapper')}>
@@ -148,9 +100,6 @@ function GridType() {
                 <>
                     <div className={cs('movieList')}>
                         {lists.map((list, index) => (
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
                             <div key={index} className={cs('movieWrapper')}>
                                 <MovieItem 
                                     category={list.category} 
@@ -179,16 +128,6 @@ function GridType() {
                             />
                         </div>
                     )}
-=======
->>>>>>> method
-                            <MovieItem key={index} category={list.category} list={list} className={cs('movieItem')} />
-                        ))}
-                    </div>
-                    <h4 className={cs('noMore')}>Đã hết kết quả</h4>
-<<<<<<< HEAD
-=======
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
                 </>
             )}
         </div>

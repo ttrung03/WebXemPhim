@@ -20,29 +20,13 @@ const Panigation = (props) => {
     return (
         <Pagination size="lg">
             <Pagination.First
-<<<<<<< HEAD
-                disabled={props.currPage == 1}
-=======
-<<<<<<< HEAD
                 disabled={props.currPage === 1}
-=======
-                disabled={props.currPage == 1}
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
                 className={cs('page-item')}
                 onClick={() => props.onSetCurrentPage(props.currPage - 1)}
             />
             {pages.map((page) => (
                 <Pagination.Item
-<<<<<<< HEAD
-                    active={props.currPage == page}
-=======
-<<<<<<< HEAD
                     active={props.currPage === page}
-=======
-                    active={props.currPage == page}
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
                     className={cs('page-item')}
                     key={page}
                     onClick={() => props.onSetCurrentPage(page)}
@@ -51,15 +35,7 @@ const Panigation = (props) => {
                 </Pagination.Item>
             ))}
             <Pagination.Last
-<<<<<<< HEAD
-                disabled={props.currPage == pages.length}
-=======
-<<<<<<< HEAD
                 disabled={props.currPage === pages.length}
-=======
-                disabled={props.currPage == pages.length}
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
                 className={cs('page-item')}
                 onClick={() => props.onSetCurrentPage(props.currPage + 1)}
             />

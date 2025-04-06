@@ -1,13 +1,5 @@
 import { createContext, useState } from 'react';
-<<<<<<< HEAD
-import './contex.scss';
-=======
-<<<<<<< HEAD
 import '~/context/contex.scss';
-=======
-import './contex.scss';
->>>>>>> 3b7c1e6 (the firt commit)
->>>>>>> method
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
