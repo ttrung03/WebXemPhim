@@ -1,10 +1,11 @@
 import styles from './Movies.module.scss';
 import classNames from 'classnames/bind';
-import { Button, Form, Table } from 'react-bootstrap';
+import { Button, Form, Table, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useContext, useRef } from 'react';
+import { FaEdit, FaTrash, FaPlus, FaDownload } from 'react-icons/fa';
 
 import requestApi from '~/apiService/index';
 import { deleteMovie, getMovieMonth } from '~/apiService/movie';
@@ -16,7 +17,7 @@ import CountCmt from './CountComment';
 const cs = classNames.bind(styles);
 
 function MoviesPage() {
-    const [movies, setMovies] = useState();
+    const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [pages, setPages] = useState();
     const [currPage, setCurrPage] = useState(1);
@@ -64,7 +65,7 @@ function MoviesPage() {
 
     useEffect(() => {
         getAllMovies(currPage);
-    }, [currPage, searchValue, category, month]);
+    }, [currPage, searchValue, category, month, getAllMovies]);
 
     const handleDeleteMovie = async (id) => {
         if (window.confirm('Bạn thật sự muốn xoá phim này')) {
@@ -97,40 +98,64 @@ function MoviesPage() {
         setCategory(e.target.value);
     };
 
+    const filteredMovies = movies.filter(movie =>
+        movie.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
+
     return (
         <div className={cs('index_list_container')}>
-            <h3 className={cs('index_list_title')}>Danh sách phim</h3>
-            <div className={cs('index_list_utils')}>
-                <Link to="/admin/dashboard/movies/create" className={cs('index_list_add-btn')}>
-                    + Thêm phim mới
-                </Link>
-                <div className={cs('index_list_search-box')}>
-                    <input
-                        ref={inputRef}
-                        placeholder="Nhập tên phim..."
-                        value={inputValue}
-                        required
-                        onChange={handleChange}
-                    />
-                    <Link
-                        to={`/admin/dashboard/movies/search/${inputValue}`}
-                        onClick={(e) => {
-                            if (!inputValue) e.preventDefault();
-                        }}
-                    >
-                        <button>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className={cs('index_list_title')}>Quản lý phim</h2>
+                <div className="d-flex gap-2">
+                    <Link to="/admin/dashboard/import-tmdb">
+                        <Button variant="success" className={cs('index_list_add-btn')}>
+                            <FaDownload className="me-2" />
+                            Thêm phim từ TMDB
+                        </Button>
+                    </Link>
+                    <Link to="/admin/dashboard/movies/create">
+                        <Button variant="primary" className={cs('index_list_add-btn')}>
+                            <FaPlus className="me-2" />
+                            Thêm phim mới
+                        </Button>
                     </Link>
                 </div>
-                {!month && !searchValue && (
-                    <Form.Select className={cs('index_list_select-form')} onChange={(e) => handleChangeCate(e)}>
-                        <option value="all">-- Tất Cả --</option>
-                        <option value="movie">Phim Lẻ</option>
-                        <option value="tv">Phim Dài Tập</option>
-                    </Form.Select>
-                )}
             </div>
+
+            <Row className="mb-4">
+                <Col md={6}>
+                    <div className={cs('index_list_search-box')}>
+                        <input
+                            ref={inputRef}
+                            placeholder="Tìm kiếm phim..."
+                            value={inputValue}
+                            required
+                            onChange={handleChange}
+                            className={cs('index_list_input')}
+                        />
+                        <Link
+                            to={`/admin/dashboard/movies/search/${inputValue}`}
+                            onClick={(e) => {
+                                if (!inputValue) e.preventDefault();
+                            }}
+                        >
+                            <button>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </button>
+                        </Link>
+                    </div>
+                </Col>
+                {!month && !searchValue && (
+                    <Col md={3}>
+                        <Form.Select className={cs('index_list_select-form')} onChange={(e) => handleChangeCate(e)}>
+                            <option value="all">-- Tất Cả --</option>
+                            <option value="movie">Phim Lẻ</option>
+                            <option value="tv">Phim Dài Tập</option>
+                        </Form.Select>
+                    </Col>
+                )}
+            </Row>
+
             {loading ? (
                 <div>Loading...</div>
             ) : movies.length < 1 ? (
@@ -152,8 +177,8 @@ function MoviesPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {movies.map((movie, index) => (
-                                <tr key={index}>
+                            {filteredMovies.map((movie, index) => (
+                                <tr key={movie._id}>
                                     <td>{index + 1}</td>
                                     <td>{movie.name}</td>
                                     <td>{movie.category === 'movie' ? 'Phim lẻ' : 'Phim dài tập'}</td>
@@ -169,19 +194,23 @@ function MoviesPage() {
                                     <td>{new Date(movie.releaseDate).toLocaleDateString()}</td>
                                     <CountCmt movieId={movie._id} />
                                     <td>
-                                        <Link
-                                            to={`/admin/dashboard/movies/edit/${movie.slug}`}
-                                            className={cs('index_list_action-link')}
-                                        >
-                                            Sửa
-                                        </Link>
-                                        <Button
-                                            variant="danger"
-                                            className={cs('index_list_action-btn')}
-                                            onClick={() => handleDeleteMovie(movie._id)}
-                                        >
-                                            Xoá
-                                        </Button>
+                                        <div className="d-flex gap-2">
+                                            <Link
+                                                to={`/admin/dashboard/movies/edit/${movie.slug}`}
+                                                className={cs('index_list_action-link')}
+                                            >
+                                                <Button variant="warning" size="sm">
+                                                    <FaEdit />
+                                                </Button>
+                                            </Link>
+                                            <Button
+                                                variant="danger"
+                                                size="sm"
+                                                onClick={() => handleDeleteMovie(movie._id)}
+                                            >
+                                                <FaTrash />
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
