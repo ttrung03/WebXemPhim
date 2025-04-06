@@ -11,10 +11,20 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useRef, useState } from 'react';
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import { supabase } from '~/components/Supabase';
+=======
+>>>>>>> method
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 //Cần phải có dòng này
 import { firebaseConnect } from '~/components/Firebase';
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 import { AuthContext } from '~/context';
 import { UpdateIcon } from '~/components/Icon';
 import image from '~/assets/Images';
@@ -23,8 +33,16 @@ import { changePassword, deleteUserClient, updateUserClient } from '~/apiService
 const cs = classNames.bind(styles);
 
 function Profile() {
+<<<<<<< HEAD
     const storage = getStorage();
 
+=======
+<<<<<<< HEAD
+=======
+    const storage = getStorage();
+
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const { showToastMessage } = useContext(AuthContext);
@@ -44,10 +62,19 @@ function Profile() {
 
     const filterRef = useRef();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> method
     // const refInputEmail = useRef();
     // const refIconEmail = useRef();
     // const refIconSentEmail = useRef();
 
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
     const handleEditName = () => {
         refContent.current.setAttribute('contentEditable', true);
         refContent.current.focus();
@@ -118,6 +145,51 @@ function Profile() {
         confirmBtn.current.addEventListener('click', handleConfirmDelete);
     };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    const handleUploadImg = async (e) => {
+        const image = e.target.files[0];
+        filterRef.current.classList.add(cs('filter'));
+        
+        if (image) {
+            try {
+                setLoading(true);
+                
+                // Upload file to Supabase Storage
+                const fileExt = image.name.split('.').pop();
+                const fileName = `${user.id}.${fileExt}`;
+                const filePath = `${fileName}`;
+                
+                const { data, error: uploadError } = await supabase.storage
+                    .from('avatars')
+                    .upload(filePath, image, {
+                        upsert: true
+                    });
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+                // Get public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(filePath);
+
+                // Update user profile
+                const res = await updateUserClient({ avatar: publicUrl }, user.email);
+                localStorage.setItem('user', JSON.stringify({ ...user, avatar: publicUrl }));
+                
+                filterRef.current.classList.remove(cs('filter'));
+                showToastMessage('success', 'Cập nhật ảnh đại diện thành công');
+            } catch (error) {
+                showToastMessage('error', error.message);
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+=======
+>>>>>>> method
     //Nếu lỗi thì xem đã import firebaseConnect từ component Firebase chưa chưa phải có dòng này
 
     const handleUploadImg = (e) => {
@@ -152,6 +224,10 @@ function Profile() {
                     });
                 },
             );
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
         }
     };
 

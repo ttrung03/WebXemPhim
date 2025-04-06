@@ -62,7 +62,15 @@ function UsersPage() {
                             </td>
                             <td className="text-center">{user.email}</td>
                             <td className="text-center">{user.name}</td>
+<<<<<<< HEAD
                             <td className="text-center">{user.isAdmin == true ? 'Admin' : 'User'}</td>
+=======
+<<<<<<< HEAD
+                            <td className="text-center">{user.isAdmin === true ? 'Admin' : 'User'}</td>
+=======
+                            <td className="text-center">{user.isAdmin == true ? 'Admin' : 'User'}</td>
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
                             <td className="text-center">
                                 <Link to={`/admin/dashboard/users/edit/${user.email}`}>Sửa</Link>
                                 <Button variant="danger" onClick={() => handleDeleteUser(user._id)}>

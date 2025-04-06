@@ -17,6 +17,13 @@
 .env.development.local
 .env.test.local
 .env.production.local
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+vercel.json
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
 npm-debug.log*
 yarn-debug.log*

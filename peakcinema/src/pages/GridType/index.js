@@ -8,6 +8,13 @@ import requestApi from '~/apiService';
 import MovieItem from '~/layout/component/MovieItem';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import Pagination from '~/layout/component/Panigation';
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
 const cs = classNames.bind(styles);
 
@@ -16,12 +23,72 @@ function GridType() {
     const { category, type, name, id } = useParams();
     const [lists, setLists] = useState([]);
     const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const itemsPerPage = 20;
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
     useEffect(() => {
         async function getList() {
             let result = null;
             setLoading(true);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            try {
+                switch (category) {
+                    case 'movie':
+                        result = await requestApi.getTypeMovie(type, { params: { page: currentPage } });
+                        break;
+                    case 'tv':
+                        result = await requestApi.getTypeTV(type, { params: { page: currentPage } });
+                        break;
+                    case 'favorite':
+                        result = await requestApi.getFavoritesList(user.id);
+                        result.data = result.data.map((data) => data.movieId);
+                        break;
+                    case 'history':
+                        result = await requestApi.getHistoryList(user.id);
+                        // Sort by most recently watched
+                        result.data = result.data
+                            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                            .map((data) => ({
+                                ...data.movieId,
+                                watchedAt: new Date(data.updatedAt).toLocaleDateString('vi-VN')
+                            }));
+                        break;
+                    case 'search':
+                        result = await requestApi.getSearch({ params: { keyword: type, page: currentPage } });
+                        break;
+                    default:
+                        result = await requestApi.getGenresMovie(id);
+                }
+
+                if (result && result.data) {
+                    setLists(result.data);
+                    setTotalPages(Math.ceil(result.total / itemsPerPage) || 1);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        getList();
+    }, [category, type, id, user?.id, currentPage]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo(0, 0);
+    };
+=======
+>>>>>>> method
             switch (category) {
                 case 'movie':
                     result = await requestApi.getTypeMovie(type, { params: {} });
@@ -49,6 +116,10 @@ function GridType() {
         }
         getList();
     }, [category, type, id]);
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
     return (
         <div className={cs('wrapper')}>
@@ -77,10 +148,47 @@ function GridType() {
                 <>
                     <div className={cs('movieList')}>
                         {lists.map((list, index) => (
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                            <div key={index} className={cs('movieWrapper')}>
+                                <MovieItem 
+                                    category={list.category} 
+                                    list={list} 
+                                    className={cs('movieItem')} 
+                                />
+                                {category === 'history' && list.watchedAt && (
+                                    <div className={cs('watchInfo')}>
+                                        Đã xem: {list.watchedAt}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    {lists.length === 0 && (
+                        <div className={cs('noResults')}>
+                            Không có kết quả nào
+                        </div>
+                    )}
+                    {lists.length > 0 && totalPages > 1 && (
+                        <div className={cs('pagination')}>
+                            <Pagination 
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    )}
+=======
+>>>>>>> method
                             <MovieItem key={index} category={list.category} list={list} className={cs('movieItem')} />
                         ))}
                     </div>
                     <h4 className={cs('noMore')}>Đã hết kết quả</h4>
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
                 </>
             )}
         </div>

@@ -5,7 +5,15 @@ import styles from './Infor.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faPlay, faRemove } from '@fortawesome/free-solid-svg-icons';
+<<<<<<< HEAD
 import { useContext, useEffect, useState } from 'react';
+=======
+<<<<<<< HEAD
+import { useContext, useEffect, useState, useCallback } from 'react';
+=======
+import { useContext, useEffect, useState } from 'react';
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 import { AuthContext } from '~/context';
 
 import { addFavouriteMovie, getFavoritesMovies } from '~/apiService/user';
@@ -23,7 +31,15 @@ function InforDetail({ width, movieDetail }) {
     const user = JSON.parse(localStorage.getItem('user'));
     const [userFavoriteMovies, setUserFavoriteMovies] = useState([]);
 
+<<<<<<< HEAD
     const getUserFavoritesMovies = async () => {
+=======
+<<<<<<< HEAD
+    const getUserFavoritesMovies = useCallback(async () => {
+=======
+    const getUserFavoritesMovies = async () => {
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
         if (user) {
             try {
                 const result = await getFavoritesMovies(user.id);
@@ -34,11 +50,25 @@ function InforDetail({ width, movieDetail }) {
                 console.log(error);
             }
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    }, [user]);
+
+    useEffect(() => {
+        getUserFavoritesMovies();
+    }, [getUserFavoritesMovies]);
+=======
+>>>>>>> method
     };
 
     useEffect(() => {
         getUserFavoritesMovies();
     }, []);
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
     const handleAddFavoriteMovie = async () => {
         if (user) {
@@ -63,7 +93,15 @@ function InforDetail({ width, movieDetail }) {
             }
         };
         getGenres();
+<<<<<<< HEAD
     }, []);
+=======
+<<<<<<< HEAD
+    }, [movieDetail.slug]);
+=======
+    }, []);
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
     return (
         <div>
             <div className={cs('contain')}>

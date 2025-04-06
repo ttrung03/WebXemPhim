@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  }
+}
+=======
+>>>>>>> method
   {
     "compilerOptions": {
       "baseUrl": ".",
@@ -5,4 +18,9 @@
         "~/*": ["src/*"]
       }
     }
+<<<<<<< HEAD
   }
+=======
+  }
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method

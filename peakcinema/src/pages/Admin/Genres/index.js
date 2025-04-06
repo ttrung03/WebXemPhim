@@ -2,7 +2,15 @@ import styles from './Genres.module.scss';
 import classNames from 'classnames/bind';
 import { Button, Table } from 'react-bootstrap';
 import { deleteGenres, getAll } from '~/apiService/genres';
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
+=======
+<<<<<<< HEAD
+import { useEffect, useState, useCallback } from 'react';
+=======
+import { useEffect, useState } from 'react';
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 import { Link } from 'react-router-dom';
 import Panigation from '~/layout/component/Panigation';
 
@@ -14,7 +22,15 @@ function GenresPage() {
     const [currPage, setCurrPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
+<<<<<<< HEAD
     const getGenres = async () => {
+=======
+<<<<<<< HEAD
+    const getGenres = useCallback(async () => {
+=======
+    const getGenres = async () => {
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
         try {
             const res = await getAll(currPage, 15);
             if (res.success) {
@@ -25,11 +41,25 @@ function GenresPage() {
         } catch (error) {
             console.log(error);
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    }, [currPage]);
+
+    useEffect(() => {
+        getGenres();
+    }, [getGenres]);
+=======
+>>>>>>> method
     };
 
     useEffect(() => {
         getGenres();
     }, [currPage]);
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
     const handleDeleteGenres = async (id) => {
         if (window.confirm('Bạn thật sự muốn xoá thể loại này')) {

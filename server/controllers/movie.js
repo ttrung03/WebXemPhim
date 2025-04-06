@@ -6,6 +6,46 @@ const History = require("../models/histories");
 class MovieController {
   async create(req, res) {
     try {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      // Kiểm tra phim đã tồn tại
+      const existingMovie = await Movie.findOne({ 
+        tmdb_id: req.body.tmdb_id,
+        type: req.body.type 
+      });
+
+      if (existingMovie) {
+        return res.status(400).json({
+          success: false,
+          message: "Phim này đã tồn tại trong hệ thống"
+        });
+      }
+
+      // Chuyển đổi genres thành array nếu chưa phải
+      if (req.body.genres && !Array.isArray(req.body.genres)) {
+        req.body.genres = [req.body.genres];
+      }
+      
+      // Chuyển đổi genres sang string
+      req.body.genres = req.body.genres.map(genre => genre.toString());
+
+      // Tạo phim mới
+      const movie = new Movie(req.body);
+      await movie.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Thêm phim thành công",
+        data: movie
+      });
+    } catch (error) {
+      console.error('Error creating movie:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message
+=======
+>>>>>>> method
       req.body.genres = req.body.genres.map((genre) => genre.toString());
       const movie = new Movie(req.body);
       await movie.save();
@@ -17,10 +57,21 @@ class MovieController {
       res.status(200).json({
         success: false,
         message: error.message,
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
       });
     }
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
   async update(req, res) {
     try {
       const movie = await Movie.findById(req.params.id);
@@ -100,6 +151,65 @@ class MovieController {
     }
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  async getAll(req, res) {
+    try {
+        const { keyword, category } = req.query;
+        const limit = parseInt(req.query.limit) || 10; // Số lượng kết quả trên mỗi trang
+        const currPage = parseInt(req.query.page) || 1; // Trang hiện tại
+
+        let filter = {}; // Điều kiện lọc dữ liệu
+        let textIndexExists = false;
+
+        // Kiểm tra nếu chỉ mục $text đã tồn tại
+        if (keyword) {
+            textIndexExists = await Movie.collection.indexExists('name_text_overview_text_country_text');
+            if (textIndexExists) {
+                // Nếu chỉ mục $text tồn tại, sử dụng tìm kiếm toàn văn bản
+                filter.$text = { $search: keyword };
+            } else {
+                // Nếu không có $text, sử dụng tìm kiếm mờ
+                filter.$or = [
+                    { name: { $regex: keyword, $options: "i" } },       // Tìm trong tên phim
+                    { overview: { $regex: keyword, $options: "i" } },  // Tìm trong mô tả
+                    { country: { $regex: keyword, $options: "i" } },   // Tìm trong quốc gia
+                ];
+            }
+        }
+
+        // Lọc theo danh mục (category)
+        if (category && category !== "all") {
+            filter.category = category; // Lọc theo danh mục
+        }
+
+        // Truy vấn danh sách phim
+        const movies = await Movie.find(filter)
+            .sort(textIndexExists ? { score: { $meta: "textScore" }, releaseDate: -1 } : { releaseDate: -1 }) // Sắp xếp theo độ liên quan hoặc ngày phát hành
+            .skip(limit * (currPage - 1)) // Phân trang
+            .limit(limit); // Giới hạn số lượng kết quả
+
+        // Đếm tổng số phim phù hợp
+        const countDocument = await Movie.countDocuments(filter);
+
+        // Trả về kết quả
+        res.status(200).json({
+            success: true,
+            data: movies,
+            total: countDocument, // Tổng số phim
+            pages: Math.ceil(countDocument / limit), // Tổng số trang
+        });
+    } catch (error) {
+        console.error("Error in getAll:", error); // Log lỗi chi tiết
+        res.status(500).json({
+            success: false,
+            message: error.message, // Thông báo lỗi
+        });
+    }
+  }
+=======
+>>>>>>> method
 //tim kie binh thuong
 //   async getAll(req, res) {
 //     try {
@@ -200,6 +310,10 @@ async getAll(req, res) {
 
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
   async getDetail(req, res) {
     try {
@@ -307,6 +421,32 @@ async getAll(req, res) {
     }
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  async checkExists(req, res) {
+    try {
+      const { tmdbId } = req.params;
+      const { type } = req.query;
+      
+      const exists = await Movie.exists({ 
+        tmdb_id: tmdbId,
+        type: type || 'movie'
+      });
+      
+      res.status(200).json({
+        success: true,
+        exists: !!exists
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
+  }
+=======
+>>>>>>> method
   // async getUserFavorites(req, res) {
   //   try {
   //     const user = await User.findOne({ email: req.query.email });
@@ -390,6 +530,10 @@ async getAll(req, res) {
   //     });
   //   }
   // }
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
   async getSimilar(req, res) {
     try {

@@ -74,10 +74,23 @@ web_modules/
 
 # dotenv environment variable files
 .env
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
+=======
+>>>>>>> method
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
+<<<<<<< HEAD
+=======
+>>>>>>> aa3835d (Initial commit)
+>>>>>>> method
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -138,9 +151,41 @@ dist
 .yarn/install-state.gz
 .pnp.*
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+#vercel
+.vercel/
+=======
+>>>>>>> aa3835d (Initial commit)
+=======
+>>>>>>> method
 =======
 node_modules/
 
 .env
 *.log
 >>>>>>> 5b5dcf5 (the firt commit)
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method

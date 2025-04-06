@@ -54,9 +54,59 @@ const Movies = new Schema(
       type: Number,
       required: false,
     },
+<<<<<<< HEAD
     viewed: { type: Number, required: false, default: 0 },
 
     slug: { type: String, slug: "name", unique: true },
+=======
+<<<<<<< HEAD
+    episodeDuration: {
+      type: Number,
+      required: false,
+    },
+    status: {
+      type: String,
+      enum: ['ongoing', 'completed', 'upcoming'],
+      required: false,
+    },
+    type: {
+      type: String,
+      enum: ['movie', 'tv'],
+      required: true,
+    },
+    tmdb_id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    viewed: { 
+      type: Number, 
+      required: false, 
+      default: 0 
+    },
+    is_Series: {
+      type: Boolean,
+      default: false,
+    },
+    is_TopList: {
+      type: Boolean,
+      default: false,
+    },
+    is_Top10: {
+      type: Boolean,
+      default: false,
+    },
+    slug: { 
+      type: String, 
+      slug: "name", 
+      unique: true 
+    },
+=======
+    viewed: { type: Number, required: false, default: 0 },
+
+    slug: { type: String, slug: "name", unique: true },
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
   },
   {
     timestamps: true,
@@ -65,9 +115,27 @@ const Movies = new Schema(
 
 // Tạo chỉ mục
 Movies.index(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  { 
+    name: "text",
+    overview: "text",
+    country: "text",
+  }
+);
+
+// Tạo chỉ mục cho tmdb_id và type
+Movies.index({ tmdb_id: 1, type: 1 }, { unique: true });
+=======
+>>>>>>> method
   { name: "text",
     overview : "text",
     country :"text",
   });
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
 module.exports = mongoose.model("movies", Movies);

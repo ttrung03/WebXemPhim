@@ -9,6 +9,23 @@ const cs = classNames.bind(styles);
 
 function Dashboard() {
     const { role } = useContext(AuthContext);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    const pathname = '/admin/dashboard';
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Kiểm tra authentication
+    if (!user || !role) {
+        return <Navigate to="/" />;
+    }
+
+    return (
+        <div className={cs('admin_wrapper')}>
+            <div className={cs('admin_Sidebar')}>
+                <Link to="/" className={cs('admin_logo')}>
+=======
+>>>>>>> method
 
     const pathname = '/admin/dashboard';
 
@@ -24,6 +41,10 @@ function Dashboard() {
         <div className={cs('admin_wrapper')}>
             <div className={cs('admin_Sidebar')}>
                 <Link to="/movie" className={cs('admin_logo')}>
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
                     <img className={cs('admin_logo-img')} src={image.logo} alt="logo" />
                     <span className={cs('admin_first-titl')}>Peak</span>
                     <span className={cs('admin_last-titl')}>Cinema</span>
@@ -42,15 +63,33 @@ function Dashboard() {
                 </NavLink>
 
                 <button className={cs('admin_btn')}>
+<<<<<<< HEAD
                     <a
                         href="/movie"
+=======
+<<<<<<< HEAD
+                    <Link
+                        to="/"
+=======
+                    <a
+                        href="/movie"
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
                         onClick={() => {
                             localStorage.removeItem('user');
                         }}
                         className={cs('admin_btn-logout')}
                     >
                         Đăng xuất
+<<<<<<< HEAD
                     </a>
+=======
+<<<<<<< HEAD
+                    </Link>
+=======
+                    </a>
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
                 </button>
             </div>
 

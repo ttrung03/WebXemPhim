@@ -7,9 +7,19 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
+<<<<<<< HEAD
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { firebaseConnect } from '~/components/Firebase';
 
+=======
+<<<<<<< HEAD
+import { supabase } from '~/components/Supabase';
+=======
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { firebaseConnect } from '~/components/Firebase';
+
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 import { editMovie } from '~/apiService/movie';
 import { getAll } from '~/apiService/genres';
 import requestApi from '~/apiService';
@@ -28,7 +38,14 @@ const EditMovie = () => {
 
     const { showToastMessage } = useContext(AuthContext);
     const navigate = useNavigate();
+<<<<<<< HEAD
     const storage = getStorage();
+=======
+<<<<<<< HEAD
+=======
+    const storage = getStorage();
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 
     const { register, handleSubmit, reset } = useForm();
 
@@ -89,6 +106,42 @@ const EditMovie = () => {
         getGenres();
     }, []);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    const handleUploadImg = async (e) => {
+        const image = e.target.files[0];
+        if (image) {
+            try {
+                // Upload file to Supabase Storage
+                const fileExt = image.name.split('.').pop();
+                const fileName = `${movie._id}_${Date.now()}.${fileExt}`;
+                const filePath = `${fileName}`;
+                
+                const { error: uploadError } = await supabase.storage
+                    .from('movies')
+                    .upload(filePath, image);
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+                // Get public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('movies')
+                    .getPublicUrl(filePath);
+
+                if (e.target.id === 'backDrop') {
+                    setBackdrop(publicUrl);
+                } else {
+                    setPosTer(publicUrl);
+                }
+            } catch (error) {
+                console.error(error);
+                showToastMessage('error', error.message);
+            }
+=======
+>>>>>>> method
     const handleUploadImg = (e) => {
         const image = e.target.files[0];
         if (image) {
@@ -114,6 +167,10 @@ const EditMovie = () => {
                     });
                 },
             );
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
         }
     };
 

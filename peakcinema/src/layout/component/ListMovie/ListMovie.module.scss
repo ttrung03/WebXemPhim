@@ -1,4 +1,17 @@
 .wrapper {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    position: relative;
+    padding: 0 40px;
+    margin-bottom: 30px;
+
+    &:hover {
+        .swiper-button-prev,
+        .swiper-button-next {
+            opacity: 1;
+=======
+>>>>>>> method
     &:hover .swiperitem {
         opacity: 0.7;
         z-index: -1;
@@ -11,10 +24,74 @@
             opacity: 1;
             transform: scaleX(1.1) scaleY(1.05);
             z-index: 9999;
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
         }
     }
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+.swiper {
+    overflow: visible;
+    
+    :global {
+        .swiper-button-prev,
+        .swiper-button-next {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            
+            &::after {
+                font-size: 20px;
+            }
+            
+            &.swiper-button-disabled {
+                opacity: 0;
+                cursor: auto;
+                pointer-events: none;
+            }
+        }
+
+        .swiper-button-prev {
+            left: -20px;
+        }
+
+        .swiper-button-next {
+            right: -20px;
+        }
+    }
+}
+
+.swiperitem_ske,
+.swiperitem {
+    height: auto;
+}
+
+.swiperitem {
+    transform: scale(1);
+    transition: all 0.2s ease;
+    opacity: 0.85;
+
+    &:hover {
+        transform: scale(1.05);
+        opacity: 1;
+        z-index: 1;
+    }
+}
+
+.movieItem {
+    width: 100%;
+    height: 100%;
+=======
+>>>>>>> method
 .swapper {
     overflow: unset;
     margin-left: 15px;
@@ -23,17 +100,47 @@
 .swiperitem {
     height: auto;
     width: 20%;
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 }
 
 .swiperitem_ske {
     height: 400px;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
 .skeleton-movie-item {
     display: block;
     height: 100%;
     border-radius: 10px;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+@media (max-width: 739px) {
+    .wrapper {
+        padding: 0 20px;
+    }
+
+    .swiper {
+        :global {
+            .swiper-button-prev,
+            .swiper-button-next {
+                display: none;
+            }
+        }
+    }
+
+=======
+>>>>>>> method
 @media (max-width: 740px) {
     .swiperitem_ske,
     .swiperitem {
@@ -42,6 +149,10 @@
 }
 
 @media (max-width: 1000px) {
+<<<<<<< HEAD
+=======
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
     .swiperitem_ske {
         height: 260px;
     }
@@ -49,6 +160,14 @@
 
 @media (max-width: 400px) {
     .swiperitem_ske {
+<<<<<<< HEAD
         height: 290px;
+=======
+<<<<<<< HEAD
+        height: 200px;
+=======
+        height: 290px;
+>>>>>>> 3b7c1e6 (the firt commit)
+>>>>>>> method
     }
 }
