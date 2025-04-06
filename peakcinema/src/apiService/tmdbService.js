@@ -130,29 +130,13 @@ export const tmdbService = {
             const movie = movieResponse.data;
             const videos = videoResponse.data.results;
             
-            // Tìm trailer chính thức bằng tiếng Việt trước
-            let trailer = videos.find(v => v.type === 'Trailer' && v.iso_639_1 === 'vi');
+            // Lấy trailer với logic ưu tiên mới
+            const trailerCode = await tmdbService.getVideos(movieId, 'movie');
             
-            // Nếu không có trailer tiếng Việt, tìm trailer chính thức bằng tiếng Anh
-            if (!trailer) {
-                trailer = videos.find(v => v.type === 'Trailer' && v.iso_639_1 === 'en');
+            // Nếu không có trailer, sử dụng trailer mặc định
+            if (!trailerCode) {
+                console.warn(`No trailer found for movie ${movieId}, using default trailer`);
             }
-            
-            // Nếu không có trailer chính thức, tìm bất kỳ video nào có type là Trailer
-            if (!trailer) {
-                trailer = videos.find(v => v.type === 'Trailer');
-            }
-            
-            // Nếu vẫn không có, lấy video đầu tiên
-            if (!trailer && videos.length > 0) {
-                trailer = videos[0];
-            }
-            
-            const trailerCode = trailer ? trailer.key : 'dQw4w9WgXcQ';
-            
-            // Log để debug
-            console.log('Movie videos:', videos);
-            console.log('Selected trailer:', trailer);
             
             const slug = createSlug(movie.title);
             const mappedGenres = mapGenres(movie.genres || []);
@@ -173,7 +157,7 @@ export const tmdbService = {
                 ibmPoints: movie.vote_average || 0,
                 category: 'movie',
                 genres: mappedGenres.length > 0 ? mappedGenres : ['64c7dceebd0a7fb9fcd17b92'],
-                trailerCode: trailerCode,
+                trailerCode: trailerCode || 'dQw4w9WgXcQ', // Fallback trailer
                 type: 'movie',
                 viewed: 0,
                 is_Series: false,
@@ -200,29 +184,13 @@ export const tmdbService = {
             const show = showResponse.data;
             const videos = videoResponse.data.results;
             
-            // Tìm trailer chính thức bằng tiếng Việt trước
-            let trailer = videos.find(v => v.type === 'Trailer' && v.iso_639_1 === 'vi');
+            // Lấy trailer với logic ưu tiên mới
+            const trailerCode = await tmdbService.getVideos(tvId, 'tv');
             
-            // Nếu không có trailer tiếng Việt, tìm trailer chính thức bằng tiếng Anh
-            if (!trailer) {
-                trailer = videos.find(v => v.type === 'Trailer' && v.iso_639_1 === 'en');
+            // Nếu không có trailer, sử dụng trailer mặc định
+            if (!trailerCode) {
+                console.warn(`No trailer found for TV show ${tvId}, using default trailer`);
             }
-            
-            // Nếu không có trailer chính thức, tìm bất kỳ video nào có type là Trailer
-            if (!trailer) {
-                trailer = videos.find(v => v.type === 'Trailer');
-            }
-            
-            // Nếu vẫn không có, lấy video đầu tiên
-            if (!trailer && videos.length > 0) {
-                trailer = videos[0];
-            }
-            
-            const trailerCode = trailer ? trailer.key : 'dQw4w9WgXcQ';
-            
-            // Log để debug
-            console.log('TV show videos:', videos);
-            console.log('Selected trailer:', trailer);
             
             const slug = createSlug(show.name);
             const mappedGenres = mapGenres(show.genres || []);
@@ -243,7 +211,7 @@ export const tmdbService = {
                 ibmPoints: show.vote_average || 0,
                 category: 'tv',
                 genres: mappedGenres.length > 0 ? mappedGenres : ['64c7dceebd0a7fb9fcd17b92'],
-                trailerCode: trailerCode,
+                trailerCode: trailerCode || 'dQw4w9WgXcQ', // Fallback trailer
                 type: 'tv',
                 seasons: show.number_of_seasons || 1,
                 episodes: show.number_of_episodes || 1,
@@ -268,11 +236,41 @@ export const tmdbService = {
         try {
             const response = await tmdbApi.get(`/${type}/${id}/videos`);
             const videos = response.data.results;
-            const trailer = videos.find(v => v.type === 'Trailer') || videos[0];
-            return trailer ? trailer.key : '';
+            
+            // Ưu tiên trailer chính thức bằng tiếng Việt
+            let trailer = videos.find(v => 
+                v.type === 'Trailer' && 
+                v.iso_639_1 === 'vi' && 
+                v.official === true
+            );
+            
+            // Nếu không có, tìm trailer chính thức tiếng Anh
+            if (!trailer) {
+                trailer = videos.find(v => 
+                    v.type === 'Trailer' && 
+                    v.iso_639_1 === 'en' && 
+                    v.official === true
+                );
+            }
+            
+            // Nếu không có trailer chính thức, tìm trailer bất kỳ
+            if (!trailer) {
+                trailer = videos.find(v => v.type === 'Trailer');
+            }
+            
+            // Nếu vẫn không có, tìm video có độ phân giải cao nhất
+            if (!trailer && videos.length > 0) {
+                trailer = videos.reduce((prev, current) => {
+                    const prevSize = prev.size || 0;
+                    const currentSize = current.size || 0;
+                    return currentSize > prevSize ? current : prev;
+                });
+            }
+            
+            return trailer ? trailer.key : null;
         } catch (error) {
             console.error('Error fetching videos:', error);
-            throw error;
+            return null;
         }
     },
 
@@ -431,73 +429,5 @@ export const tmdbService = {
     }
 };
 
-// Hàm tải ảnh từ URL và upload lên Supabase
-async function uploadImageFromUrl(imageUrl, fileName) {
-    try {
-        console.log('Downloading image from TMDB:', imageUrl);
-        
-        // Tải ảnh từ TMDB
-        const response = await fetch(imageUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch image: ${response.statusText}`);
-        }
-        
-        const blob = await response.blob();
-        console.log('Image downloaded, size:', blob.size);
-        
-        // Upload lên Supabase
-        console.log('Uploading to Supabase:', fileName);
-        const { data, error } = await supabase.storage
-            .from('movies')
-            .upload(fileName, blob, {
-                upsert: true,
-                contentType: 'image/jpeg'
-            });
-            
-        if (error) {
-            console.error('Supabase upload error:', error);
-            return imageUrl; // Trả về URL TMDB nếu upload thất bại
-        }
-        
-        console.log('Upload successful:', data);
-        
-        // Lấy URL công khai từ Supabase
-        const { data: { publicUrl } } = supabase.storage
-            .from('movies')
-            .getPublicUrl(fileName);
-            
-        console.log('Supabase public URL:', publicUrl);
-        return publicUrl;
-    } catch (error) {
-        console.error('Error in uploadImageFromUrl:', error);
-        return imageUrl; // Trả về URL TMDB nếu có lỗi
-    }
-}
 
-// Hàm xử lý upload ảnh cho phim
-async function handleMovieImages(movie, movieId) {
-    try {
-        let backdropPath = '/default-backdrop.jpg';
-        let posterPath = '/default-poster.jpg';
-        
-        if (movie.backdrop_path) {
-            const backdropUrl = `${IMAGE_BASE_URL}${movie.backdrop_path}`;
-            const backdropFileName = `movies/${movieId}/backdrop.jpg`;
-            backdropPath = await uploadImageFromUrl(backdropUrl, backdropFileName);
-        }
-        
-        if (movie.poster_path) {
-            const posterUrl = `${IMAGE_BASE_URL}${movie.poster_path}`;
-            const posterFileName = `movies/${movieId}/poster.jpg`;
-            posterPath = await uploadImageFromUrl(posterUrl, posterFileName);
-        }
-        
-        return { backdropPath, posterPath };
-    } catch (error) {
-        console.error('Error handling movie images:', error);
-        return {
-            backdropPath: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : '/default-backdrop.jpg',
-            posterPath: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : '/default-poster.jpg'
-        };
-    }
-} 
+ 

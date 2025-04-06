@@ -6,17 +6,30 @@ const History = require("../models/histories");
 class MovieController {
   async create(req, res) {
     try {
-      req.body.genres = req.body.genres.map((genre) => genre.toString());
+      // Bỏ hàm kiểm tra phim đã tồn tại
+      
+      // Chuyển đổi genres thành array nếu chưa phải
+      if (req.body.genres && !Array.isArray(req.body.genres)) {
+        req.body.genres = [req.body.genres];
+      }
+      
+      // Chuyển đổi genres sang string
+      req.body.genres = req.body.genres.map(genre => genre.toString());
+  
+      // Tạo phim mới
       const movie = new Movie(req.body);
       await movie.save();
+  
       res.status(200).json({
         success: true,
         message: "Thêm phim thành công",
+        data: movie
       });
     } catch (error) {
-      res.status(200).json({
+      console.error('Error creating movie:', error);
+      res.status(500).json({
         success: false,
-        message: error.message,
+        message: error.message
       });
     }
   }
@@ -100,106 +113,60 @@ class MovieController {
     }
   }
 
-//tim kie binh thuong
-//   async getAll(req, res) {
-//     try {
-//         const limit = parseInt(req.query.limit) || 10; // Số lượng phim mỗi trang
-//         const currPage = parseInt(req.query.page) || 1; // Trang hiện tại
-//         const { keyword, category } = req.query; // Lấy tham số từ query
+  async getAll(req, res) {
+    try {
+        const { keyword, category } = req.query;
+        const limit = parseInt(req.query.limit) || 10; // Số lượng kết quả trên mỗi trang
+        const currPage = parseInt(req.query.page) || 1; // Trang hiện tại
 
-//         // Điều kiện tìm kiếm
-//         let filter = {};
+        let filter = {}; // Điều kiện lọc dữ liệu
+        let textIndexExists = false;
 
-//         if (keyword) {
-//             filter.name = { $regex: keyword, $options: "i" }; // Tìm kiếm không phân biệt hoa thường
-//         }
-//         if (category && category !== "all") {
-//             filter.category = category; // Lọc theo danh mục
-//         }
+        // Kiểm tra nếu chỉ mục $text đã tồn tại
+        if (keyword) {
+            textIndexExists = await Movie.collection.indexExists('name_text_overview_text_country_text');
+            if (textIndexExists) {
+                // Nếu chỉ mục $text tồn tại, sử dụng tìm kiếm toàn văn bản
+                filter.$text = { $search: keyword };
+            } else {
+                // Nếu không có $text, sử dụng tìm kiếm mờ
+                filter.$or = [
+                    { name: { $regex: keyword, $options: "i" } },       // Tìm trong tên phim
+                    { overview: { $regex: keyword, $options: "i" } },  // Tìm trong mô tả
+                    { country: { $regex: keyword, $options: "i" } },   // Tìm trong quốc gia
+                ];
+            }
+        }
 
-//         // Truy vấn cơ sở dữ liệu
-//         const movies = await Movie.find(filter)
-//             .sort({ releaseDate: -1 }) // Sắp xếp theo ngày phát hành
-//             .skip(limit * (currPage - 1)) // Phân trang
-//             .limit(limit); // Giới hạn kết quả
+        // Lọc theo danh mục (category)
+        if (category && category !== "all") {
+            filter.category = category; // Lọc theo danh mục
+        }
 
-//         // Đếm số lượng phim thỏa mãn điều kiện
-//         const countDocument = await Movie.countDocuments(filter);
+        // Truy vấn danh sách phim
+        const movies = await Movie.find(filter)
+            .sort(textIndexExists ? { score: { $meta: "textScore" }, releaseDate: -1 } : { releaseDate: -1 }) // Sắp xếp theo độ liên quan hoặc ngày phát hành
+            .skip(limit * (currPage - 1)) // Phân trang
+            .limit(limit); // Giới hạn số lượng kết quả
 
-//         res.status(200).json({
-//             success: true,
-//             data: movies,
-//             total: countDocument, // Tổng số phim
-//             pages: Math.ceil(countDocument / limit), // Tổng số trang
-//         });
-//     } catch (error) {
-//         console.error("Error in getAll:", error);
-//         res.status(500).json({
-//             success: false,
-//             message: error.message,
-//         });
-//     }
-// }
+        // Đếm tổng số phim phù hợp
+        const countDocument = await Movie.countDocuments(filter);
 
-
-async getAll(req, res) {
-  try {
-      const { keyword, category } = req.query;
-      const limit = parseInt(req.query.limit) || 10; // Số lượng kết quả trên mỗi trang
-      const currPage = parseInt(req.query.page) || 1; // Trang hiện tại
-
-      let filter = {}; // Điều kiện lọc dữ liệu
-      let textIndexExists = false;
-
-      // Kiểm tra nếu chỉ mục $text đã tồn tại
-      if (keyword) {
-          textIndexExists = await Movie.collection.indexExists('name_text_overview_text_country_text');
-          if (textIndexExists) {
-              // Nếu chỉ mục $text tồn tại, sử dụng tìm kiếm toàn văn bản
-              filter.$text = { $search: keyword };
-          } else {
-              // Nếu không có $text, sử dụng tìm kiếm mờ
-              filter.$or = [
-                  { name: { $regex: keyword, $options: "i" } },       // Tìm trong tên phim
-                  { overview: { $regex: keyword, $options: "i" } },  // Tìm trong mô tả
-                  { country: { $regex: keyword, $options: "i" } },   // Tìm trong quốc gia
-              ];
-          }
-      }
-
-      // Lọc theo danh mục (category)
-      if (category && category !== "all") {
-          filter.category = category; // Lọc theo danh mục
-      }
-
-      // Truy vấn danh sách phim
-      const movies = await Movie.find(filter)
-          .sort(textIndexExists ? { score: { $meta: "textScore" }, releaseDate: -1 } : { releaseDate: -1 }) // Sắp xếp theo độ liên quan hoặc ngày phát hành
-          .skip(limit * (currPage - 1)) // Phân trang
-          .limit(limit); // Giới hạn số lượng kết quả
-
-      // Đếm tổng số phim phù hợp
-      const countDocument = await Movie.countDocuments(filter);
-
-      // Trả về kết quả
-      res.status(200).json({
-          success: true,
-          data: movies,
-          total: countDocument, // Tổng số phim
-          pages: Math.ceil(countDocument / limit), // Tổng số trang
-      });
-  } catch (error) {
-      console.error("Error in getAll:", error); // Log lỗi chi tiết
-      res.status(500).json({
-          success: false,
-          message: error.message, // Thông báo lỗi
-      });
+        // Trả về kết quả
+        res.status(200).json({
+            success: true,
+            data: movies,
+            total: countDocument, // Tổng số phim
+            pages: Math.ceil(countDocument / limit), // Tổng số trang
+        });
+    } catch (error) {
+        console.error("Error in getAll:", error); // Log lỗi chi tiết
+        res.status(500).json({
+            success: false,
+            message: error.message, // Thông báo lỗi
+        });
+    }
   }
-}
-
-
-
-
 
   async getDetail(req, res) {
     try {
@@ -307,89 +274,27 @@ async getAll(req, res) {
     }
   }
 
-  // async getUserFavorites(req, res) {
-  //   try {
-  //     const user = await User.findOne({ email: req.query.email });
-  //     if (user) {
-  //       const movies = await Movie.find({ _id: { $in: user.favorites } });
-  //       res.status(200).json({
-  //         success: true,
-  //         data: movies,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       success: false,
-  //       message: error.message,
-  //     });
-  //   }
-  // }
-
-  // async getUserHistory(req, res) {
-  //   try {
-  //     const user = await User.findOne({ email: req.query.email });
-  //     if (user) {
-  //       const movies = await Movie.find({ _id: { $in: user.histories } });
-  //       res.status(200).json({
-  //         success: true,
-  //         data: movies,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       success: false,
-  //       message: error.message,
-  //     });
-  //   }
-  // }
-
-  // async addComment(req, res) {
-  //   try {
-  //     const movie = await Movie.findById(req.params.id);
-  //     if (movie) {
-  //       const movieComments = movie.comments;
-  //       movieComments.push(req.body);
-
-  //       await movie.updateOne({ comments: movieComments });
-  //       res.status(200).json({
-  //         success: true,
-  //         message: "Đăng bình luận thành công",
-  //       });
-  //     } else {
-  //       res.status(404).json({
-  //         success: false,
-  //         message: "Không tìm thấy trang hoặc yêu cầu!",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       success: false,
-  //       message: error.message,
-  //     });
-  //   }
-  // }
-
-  // async deleteComment(req, res) {
-  //   try {
-  //     const movie = await Movie.findById(req.params.id);
-  //     if (movie) {
-  //       const movieComments = movie.comments.filter(
-  //         (comment) => comment.id !== req.body.id
-  //       );
-
-  //       await movie.updateOne({ comments: movieComments });
-  //       res.status(200).json({
-  //         success: true,
-  //         message: "Xoá bình luận thành công",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       success: false,
-  //       message: error.message,
-  //     });
-  //   }
-  // }
+  async checkExists(req, res) {
+    try {
+      const { tmdbId } = req.params;
+      const { type } = req.query;
+      
+      const exists = await Movie.exists({ 
+        tmdb_id: tmdbId,
+        type: type || 'movie'
+      });
+      
+      res.status(200).json({
+        success: true,
+        exists: !!exists
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
+  }
 
   async getSimilar(req, res) {
     try {
